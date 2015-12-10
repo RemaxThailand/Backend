@@ -1,0 +1,40 @@
+.colorful {
+	background:
+		-webkit-linear-gradient(45deg, hsla(203, 54%, 86%, 1) 0%, hsla(203, 54%, 86%, 0) 70%),
+		-webkit-linear-gradient(315deg, hsla(18, 55%, 90%, 1) 10%, hsla(18, 55%, 90%, 0) 80%),
+		-webkit-linear-gradient(225deg, hsla(203, 15%, 96%, 1) 10%, hsla(203, 15%, 96%, 0) 80%),
+		-webkit-linear-gradient(135deg, hsla(320, 95%, 71%, 1) 100%, hsla(320, 95%, 71%, 0) 70%);
+	background:
+		linear-gradient(45deg, hsla(203, 54%, 86%, 1) 0%, hsla(203, 54%, 86%, 0) 70%),
+		linear-gradient(135deg, hsla(18, 55%, 90%, 1) 10%, hsla(18, 55%, 90%, 0) 80%),
+		linear-gradient(225deg, hsla(203, 15%, 96%, 1) 10%, hsla(203, 15%, 96%, 0) 80%),
+		linear-gradient(315deg, hsla(320, 95%, 71%, 1) 100%, hsla(320, 95%, 71%, 0) 70%);
+	}
+
+form {
+	color: #444;
+    padding: 30px 20px 10px 20px;
+	background-color: #eaeaec;
+}
+
+.margin-top-0 { margin-top:0 !important }
+.margin-bottom-0 { margin-bottom:0 !important }
+.margin-bottom-5 { margin-bottom:5px !important }
+
+.footer { padding: 10px 20px 10px 20px }
+button.btn-block { margin-bottom: 10px; }
+.login-box, .register-box { margin: 7% auto 0 }
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+.fade-in-out {
+  transition: 0.5s linear all;  
+  opacity: 1;
+}
+
+.fade-in-out.ng-hide {
+  transition: 0.5s linear all;  
+  opacity: 0;
+}

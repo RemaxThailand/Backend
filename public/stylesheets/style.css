@@ -1,0 +1,45 @@
+.margin-top-20 { margin-top:20px }
+.margin-top-70 { margin-top:70px }
+.nav-shadow { box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.22) }
+
+.navbar-nav-center {
+    display: table;
+    float: none;
+    margin: 0 auto;
+    table-layout: fixed;
+}
+
+*, *:before, *:after {box-sizing:  border-box !important;}
+
+.row.pin {
+ -moz-column-width: 20em;
+ -webkit-column-width: 20em;
+ -moz-column-gap: 4px;
+ -webkit-column-gap:4px;   
+}
+
+.row.pin > .col-md-3 {
+ display: inline-block;
+ padding: 0;
+ margin: 0;
+ width:  100%; 
+ float:none;
+}
+
+.row.pin .img-responsive {
+  border:0px solid #999;
+}
+
+.category-card {
+  opacity: 1;
+}
+
+.category-card.ng-hide-add, .category-card.ng-hide-remove {
+  transition: all linear 0.5s;
+}
+
+.category-card.ng-hide {
+  line-height: 0;
+  opacity: 0;
+  padding: 0 10px;
+}

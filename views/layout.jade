@@ -1,0 +1,143 @@
+doctype html
+html(lang='en', ng-app='PowerDD')
+	head
+		title #{data.title} | PowerDD Backend
+		meta(charset='utf-8')
+		meta(content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no', name='viewport')
+		link(rel='stylesheet', href='//cdn.remaxthailand.co.th/bootstrap/3.3.5/css/bootstrap.min.css')
+		link(rel='stylesheet', href='//cdn.remaxthailand.co.th/font-awesome/4.4.0/css/font-awesome.min.css')
+		link(rel='stylesheet', href='//cdn.remaxthailand.co.th/adminlte/2.3.0/css/AdminLTE.css')
+
+	body.skin-blue
+
+		input#apiUrl(type='hidden', value=config.apiUrl)
+		input#authKey(type='hidden', value=config.authKey)
+		input#role(type='hidden', value=info.memberType)
+		//input#rolesMessage(type="hidden", value='{"administrator":"#{__('role-administrator')}", "dealer":"#{__('role-dealer')}", "developer":"#{__('role-developer')}", "guest":"#{__('role-guest')}", "headSale":"#{__('role-headSale')}", "manager":"#{__('role-manager')}", "member":"#{__('role-member')}", "officer":"#{__('role-officer')}", "sale":"#{__('role-sale')}"}')
+		input#language(type='hidden', value=config.language)
+		if permission.insert != ''
+			input#insertKey(type='hidden', value=permission.insert)
+		if permission.update != ''
+			input#updateKey(type='hidden', value=permission.update)
+		if permission.delete != ''
+			input#deleteKey(type='hidden', value=permission.delete)
+
+		img.hidden(src="https://www.dropbox.com/s/4kgsnilcrzed582/loading.gif?raw=1")
+		
+
+		header.header
+			a.logo(href='/') RemaxThailand
+			nav.navbar.navbar-static-top(role="navigation")
+				a.navbar-btn.sidebar-toggle(href="#", data-toggle="offcanvas", role="button")
+					span.sr-only Toggle navigation
+					span.icon-bar
+					span.icon-bar
+					span.icon-bar
+				div.navbar-right
+					ul.nav.navbar-nav
+									
+						li.dropdown.hidden-xs
+							a.dropdown-toggle(href="#", data-toggle="dropdown", role="button", aria-expanded="false") #{__('language')} 
+								span.caret
+							ul.dropdown-menu(role="menu")
+								li(class="#{config.language == 'th' ? 'active' : ''}")
+									a(href="#{config.language == 'th' ? 'javascript:void(0)' : '/language/th'}", class="#{config.language == 'th' ? 'color-white' : ''}") #{__('languageThai')}
+								li(class="#{config.language == 'en' ? 'active' : ''}")
+									a(href="#{config.language == 'en' ? 'javascript:void(0)' : '/language/en'}", class="#{config.language == 'en' ? 'color-white' : ''}") #{__('languageEnglish')}
+
+						li.dropdown.user.user-menu
+							a.dropdown-toggle(href="#", data-toggle="dropdown")
+								i.glyphicon.glyphicon-user
+								span #{info.name}
+									i.caret
+							ul.dropdown-menu
+								li.user-header.bg-light-blue
+									img.img-circle(src="/images/AdminLTE/avatar5.png", alt="User Image")
+									if info.firstname
+										p #{info.firstname} #{info.lastname}
+									else
+										p #{info.name}
+									small#memberRole #{__('role-'+info.memberType)}
+								li.user-footer
+									div.pull-left
+										if config.screen == 'member-profile'
+											a.btn.btn-default.btn-flat(href="javascript:void(0)", disabled) #{__('profile')}
+										else
+											a.btn.btn-default.btn-flat(href="/member/profile") #{__('profile')}
+									div.pull-right
+										a.btn.btn-default.btn-flat(href="/logout") #{__('logout')}
+
+		div.wrapper.row-offcanvas.row-offcanvas-left
+			aside.left-side.sidebar-offcanvas
+				section.sidebar
+					div.user-panel
+						div.pull-left.image
+							img.img-circle(src="/images/AdminLTE/avatar5.png", alt="User Image")
+						div.pull-left.info
+							p #{__('hello %s')}#{info.name}
+							a(href="/member/profile") 
+								i.fa.fa-user.text-success
+								&nbsp; #{__('role-'+info.memberType)}
+					form.sidebar-form(action="#", method="get")
+						div.input-group
+							input.form-control(type="text", name="q", placeholder="#{__('search')}...")
+							span.input-group-btn
+								button#search-btn.btn.btn-flat(type='submit', name='seach')
+									i.fa.fa-search
+					ul.sidebar-menu
+						for menu, key in config.menu
+							li(class="#{config.screen == key ? 'active' : ''} #{menu.hasChild ? 'treeview' : ''}", id="menu#{menu.link.replace(/\//g, '-')}")
+								a(href="#{menu.link}")
+									i(class="fa fa-#{menu.icon}") 
+									span &nbsp; #{__('screen-'+key+'-header')}
+									if menu.hasChild
+										|  &nbsp;
+										i.fa.fa-angle-left.pull-right
+										small.badge.pull-right.margin-right-5.hidden 0
+									else
+										small.badge.pull-right.hidden 0
+								if menu.hasChild
+									ul.treeview-menu
+										for subMenu, subKey in menu.child
+											li(id="subMenu#{subMenu.replace(/\//g, '-')}")
+												a(href="#{subMenu}")
+													i.fa.fa-angle-double-right 
+													span &nbsp; #{__('screen-'+subKey+'-header')}
+													small.badge.pull-right.hidden
+
+			aside.right-side
+				section.content-header
+					h1
+						&nbsp;#{config.title} 
+						small #{config.titleDesc}
+
+					if config.screen != 'index'
+						ol.breadcrumb
+							li
+								a(href="/")
+									i.fa.fa-dashboard
+									&nbsp;#{__('home')}
+							li.active &nbsp;#{config.title}
+
+				section.content
+
+					block content
+
+		script(src='//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js')
+		script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js')
+
+		if (config.screen == 'product' || config.screen == 'cart')
+			script(src='/javascripts/plugins/lazyload/jquery.scrollstop.min.js')
+			script(src='/javascripts/plugins/scrollToFixed/jquery-scrolltofixed-min.js')
+			script(src='//cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js')
+
+		if (config.screen == 'report-dealer')
+			script(src='/javascripts/plugins/jqueryKnob/jquery.knob.js')			
+			script(src='//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js')
+			script(src='/javascripts/plugins/morris/morris.min.js')
+			script(src='/javascripts/plugins/sparkline/jquery.sparkline.min.js')
+			
+		script(src='/javascripts/AdminLTE/app.js')
+		script(src='/javascripts/app.js')
+		- if (locals.script)
+			script(src=script)

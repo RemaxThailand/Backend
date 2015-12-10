@@ -1,0 +1,60 @@
+doctype html
+html(lang='en', ng-app='PowerDD')
+	head
+		title= 'Sign in | PowerDD Backend'
+		meta(charset='utf-8')
+		meta(content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no', name='viewport')
+		link(rel='stylesheet', href='//src.powerdd.com/libs/bootstrap/3.3.5/css/bootstrap.min.css')
+		link(rel='stylesheet', href='//src.powerdd.com/libs/font-awesome/4.4.0/css/font-awesome.min.css')
+		link(rel='stylesheet', href='//src.powerdd.com/libs/adminlte/2.3.0/css/AdminLTE.css')
+		link(rel='stylesheet', href='/stylesheets/login.css')
+		link(rel='shortcut icon', href='favicon.ico', type='image/x-icon')
+		link(rel='icon', href='favicon.ico', type='image/x-icon')
+
+	body.hold-transition.login-page.colorful
+		.login-box
+			.box.box-primary
+				.box-header.text-center.bg-light-blue
+					h3.box-title  สมัครสมาชิก
+				form(action='../../index2.html', method='post')
+					.form-group.has-feedback
+						input.form-control(type='email', placeholder='Email')
+						span.fa.fa-envelope.form-control-feedback
+					.form-group.has-feedback
+						input.form-control(type='password', placeholder='Password')
+						span.fa.fa-lock.form-control-feedback
+					.checkbox.pull-left
+						label
+							input#remember(type='checkbox')
+							|  คงอยู่ในระบบ
+					.btn-group.pull-right
+						span.btn.dropdown-toggle(data-toggle='dropdown')
+							i.fa.fa-globe
+							|  ภาษา 
+							span.caret
+						ul.dropdown-menu
+							li.active
+								a(href='javascript:void(0)') ภาษาไทย
+							li
+								a(href='/language/en') English						
+					.clearfix
+				.footer
+					#dv-info.callout.callout-info.margin-bottom-0.hidden
+						h4
+							i.fa.fa-comment
+							span.msg-header สถานะการทำงาน
+						p
+							img.loading.top-2(src='/images/icons/loading.gif', alt='loading')
+							span.msg-detail
+					button#btn-login.btn.bg-light-blue.btn-block.for-hide(type='button') ลงชื่อเข้าใช้
+					p.for-hide
+						a(href='/forgot') ลืมรหัสผ่าน
+					a.for-hide.text-center(href='/register') สมัครสมาชิกใหม่
+
+		script(src='//src.powerdd.com/libs/jquery/2.1.4/jquery.min.js')
+		script(src='//src.powerdd.com/libs/jquery-cookie/1.4.1/jquery.cookie.min.js')
+		script(src='//src.powerdd.com/libs/angular/1.4.6/angular.min.js')
+		script(src='//src.powerdd.com/libs/angular/ngStorage/0.3.9/ngStorage.min.js')
+		script(src='//src.powerdd.com/libs/bootstrap/3.3.5/js/bootstrap.min.js')
+		script(src='//src.powerdd.com/libs/adminlte/2.3.0/js/app.min.js')
+		script(src='/javascripts/common.js')

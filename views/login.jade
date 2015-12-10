@@ -1,0 +1,119 @@
+doctype html
+html(lang='en')
+	head
+		title #{__('Sign in')} | PowerDD Backend System
+		meta(charset='utf-8')
+		meta(content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no', name='viewport')
+		link(rel='stylesheet', href='//cdn.remaxthailand.co.th/bootstrap/3.3.5/css/bootstrap.min.css')
+		link(rel='stylesheet', href='//cdn.remaxthailand.co.th/font-awesome/4.4.0/css/font-awesome.min.css')
+		link(rel='stylesheet', href='//cdn.remaxthailand.co.th/adminlte/2.3.0/css/AdminLTE.min.css')
+		link(rel='stylesheet', href='/stylesheets/login.css')
+		link(rel='shortcut icon', href='favicon.ico', type='image/x-icon')
+		link(rel='icon', href='favicon.ico', type='image/x-icon')
+
+	body.hold-transition.login-page.colorful
+		.login-box
+			.box.box-primary
+				.box-header.text-center.bg-light-blue
+					h3.box-title.group-signin #{__('Sign in')}
+					h3.box-title.hidden.group-register #{__('Create account')}
+					h3.box-title.hidden.group-forgot #{__('Forgot password')}
+				form.group-signin(name='formLogin')
+					.form-group.has-feedback
+						input#username.form-control(type='text', placeholder="#{__('username')} #{__('or')} #{__('email')} #{__('or')} #{__('Mobile Phone Number')}", required)
+						span.fa.fa-user.form-control-feedback
+					.form-group.has-feedback
+						input#password.form-control(type='password', placeholder="#{__('password')}", required)
+						span.fa.fa-lock.form-control-feedback
+					.checkbox.pull-left
+						label
+							input#remember(name='remember', type='checkbox')
+							|  #{__('Stay signed in')}
+					.btn-group.pull-right
+						span.btn.dropdown-toggle(data-toggle='dropdown')
+							i.fa.fa-globe
+							|  #{__('language')}  
+							span.caret
+						ul.dropdown-menu
+							li(class="#{data.language == 'th' ? 'active' : ''}")
+								a(href="#{data.language == 'th' ? 'javascript:void(0)' : '/language/th'}") #{__('languageThai')}
+							li(class="#{data.language == 'en' ? 'active' : ''}")
+								a(href="#{data.language == 'en' ? 'javascript:void(0)' : '/language/en'}") #{__('languageEnglish')}
+					.clearfix
+
+				form.group-register.hidden(name='formRegister')
+					.form-group.has-feedback
+						input#r-username.form-control(type='text', placeholder="#{__('username')}", required, maxlength="36")
+						span.fa.fa-user.form-control-feedback
+					.form-group.has-feedback
+						input#r-mobile.form-control(type='text', placeholder="#{__('Mobile Phone Number')}", required, maxlength="10")
+						span.fa.fa-phone-square.form-control-feedback
+					.form-group.has-feedback
+						input#r-email.form-control(type='text', placeholder="#{__('email')}", required)
+						span.fa.fa-envelope.form-control-feedback
+					.form-group.has-feedback
+						input#r-password.form-control(type='password', placeholder="#{__('password')}", required)
+						span.fa.fa-lock.form-control-feedback
+					.form-group.has-feedback
+						input#r-password2.form-control(type='password', placeholder="#{__('retype password')}", required)
+						span.fa.fa-lock.form-control-feedback
+					.clearfix
+
+				form.group-forgot.hidden
+					.form-group.has-feedback
+						input#f-username.form-control(type='text', placeholder="#{__('username')} #{__('or')} #{__('email')} #{__('or')} #{__('Mobile Phone Number')}")
+						span.fa.fa-user.form-control-feedback
+					.form-group.has-feedback
+						input#f-question.form-control(type='text', placeholder="#{__('Question')}")
+						span.fa.fa-question-circle.form-control-feedback
+					.form-group.has-feedback
+						input#f-answer.form-control(type='text', placeholder="#{__('Answer')}")
+						span.fa.fa-quote-right.form-control-feedback
+					.clearfix
+
+				.footer
+					
+					.text-center.hidden
+						p.text-red
+							i.fa.fa-warning  
+							|  #{__('Username already exists')}
+						p.text-red
+							i.fa.fa-warning  
+							|  #{__('Mobile phone number already exists')}
+						p.text-red
+							i.fa.fa-warning  
+							|  #{__('Email already exists')}
+						p.text-red 
+							i.fa.fa-warning  
+							|  #{__('Invalid Username or Password')}
+
+					.text-center.text-green.hidden
+						p
+							i.fa.fa-check-circle  
+							|  #{__('Registration Successful')}
+						p
+							i.fa.fa-check-circle  
+							|  #{__('You have logged in successfully')}
+
+					#dv-info.callout.callout-info.margin-bottom-0.hidden
+						h4
+							i.fa.fa-comment
+							span.msg-header  #{__('Working Status')}
+						p
+							span.msg-detail
+					button#btn-signin.group-signin.btn.bg-light-blue.btn-block(type='button', disabled, data-loading-text="#{__('loadingData')}") #{__('Sign in')}
+					button#btn-register.group-register.btn.bg-light-blue.btn-block.hidden(type='button', disabled, data-loading-text="#{__('loadingData')}") #{__('Create account')}
+					button#btn-forgot.group-forgot.btn.bg-light-blue.btn-block.hidden(type='button', data-loading-text="#{__('loadingData')}") #{__('Verify')}
+
+					p.link.link-signin.hidden(data-group='signin', data-hide='register|forgot')
+						a(href='javascript:') #{__('Sign in')}
+					p.link.link-register(data-group='register', data-hide='signin|forgot')
+						a(href='javascript:') #{__('Create account')}
+					p.link.link-forgot(data-group='forgot', data-hide='register|signin')
+						a(href='javascript:') #{__('Forgot password')}
+
+		script(src='//cdn.remaxthailand.co.th/jquery/2.1.4/jquery.min.js')
+		script(src='//cdn.remaxthailand.co.th/js-cookie/2.0.3/js.cookie.min.js')
+		script(src='//cdn.remaxthailand.co.th/bootstrap/3.3.5/js/bootstrap.min.js')
+		script(src='//cdn.remaxthailand.co.th/adminlte/2.3.0/js/app.min.js')
+		script(src='/javascripts/login.js')
