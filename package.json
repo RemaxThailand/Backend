@@ -1,0 +1,41 @@
+{
+  "name": "remax-backend",
+  "version": "1.0.0",
+  "description": "Remax (Thailand) Backend",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.14.1",
+    "compression": "^1.6.0",
+    "cookie-parser": "^1.4.0",
+    "errorhandler": "^1.4.2",
+    "express": "^4.13.3",
+    "express-useragent": "^0.2.0",
+    "i18n": "^0.5.0",
+    "jade": "^1.11.0",
+    "jsonwebtoken": "^5.4.1",
+    "localStorage": "^1.0.3",
+    "method-override": "^2.3.5",
+    "moment": "^2.10.6",
+    "path": "^0.12.7",
+    "request": "^2.67.0",
+    "serve-favicon": "^2.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Remax (Thailand)",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RemaxThailand/Backend.git"
+  },
+  "keywords": [
+    "Remax",
+    "Backend"
+  ],
+  "bugs": {
+    "url": "https://github.com/RemaxThailand/Backend/issues"
+  },
+  "homepage": "https://github.com/RemaxThailand/Backend#readme"
+}

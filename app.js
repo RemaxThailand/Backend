@@ -11,6 +11,7 @@ var http = require('http')
 	, cookieParser = require('cookie-parser')
 	, compress = require('compression')
 	, useragent = require('express-useragent')
+	, jwt = require('jsonwebtoken')
 
 global.config = require('./config.js');
 	
@@ -47,10 +48,12 @@ app.get('*', function(req, res) {
 		res.setLocale(req.cookies.language);
 	}
 
-	var url = req.headers['uri'].split('/');
+	var url = req.url.split('/');
 	url = url.filter(function(n){ return n !== ''; });
+	if (url.length == 0); url[0] = '';
 
-	if (url[0] == 'language' && url.length >= 1)
+	//if (url.length >= 1 && url[0] == 'language')
+	if (url.length >= 1 && url[0] == 'language')
 	{
 		res.cookie('language', url[1]);
 		req.setLocale(url[1]);
@@ -62,7 +65,15 @@ app.get('*', function(req, res) {
 		data.language = req.cookies.language;
 		data.memberInfo = {};
 		data.memberInfo.locale = 'th';
-		var ip = req.headers['x-forwarded-for'].split(',');
+
+		var json = {
+			apiKey: config.apiKey,
+			ip: req.headers.x-forwarded-for,
+			host: req.headers.x-host,
+		};
+		data.token = jwt.sign(json, config.secretKey, { expiresInMinutes: 60*5 });
+
+		/*var ip = req.headers['x-forwarded-for'].split(',');
 		data.ip = ip[0];
 		data.browser = req.useragent.browser;
 		data.version = req.useragent.version;
@@ -131,10 +142,10 @@ app.get('*', function(req, res) {
 				routes.index(req, res, data);
 			}
 		}
-		else {
+		else {*/
 			
 			routes.index(req, res, data);
-		}
+		//}
 	}
 
 });
