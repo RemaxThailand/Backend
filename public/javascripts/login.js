@@ -25,7 +25,37 @@ $(function() {
 	});
 
 	$(document).on('click', '#btn-register', function(){
-		console.log( '#btn-register' );
+		
+		var json = {};
+		json.username = $.trim($('#r-username').val());
+		json.password = $.trim($('#r-password').val());
+		json.mobile = $.trim($('#r-mobile').val());
+		json.email = $.trim($('#r-email').val());
+		
+		$('#msg-error p, #msg-success p').hide();
+		$('form.group-register input, #btn-register').attr('disabled','disabled');
+
+		$.post($('#apiUrl').val()+'/member/register', {
+			token: Cookies.get('token'),
+			type: 'Web',
+			value: JSON.stringify(json),
+		}, function(data){
+			if ( data.success ){
+				$('p.link, #btn-register').hide();
+				$('#msg-success, p.register').show();
+				Cookies.set('token', data.token, { expires: 1 });
+				Cookies.set('username', json.username, { expires: 365 });
+				location.reload();
+
+			}
+			else {
+				$('form.group-register input, #btn-register').attr('disabled', '').removeAttr('disabled');
+				$('#msg-error, #'+data.error).show();
+				if ( data.error == 'MBR0031' ) $('#r-username').parent().addClass('has-error');
+				else if ( data.error == 'MBR0051' ) $('#r-mobile').parent().addClass('has-error');
+				else if ( data.error == 'MBR0061' ) $('#r-email').parent().addClass('has-error');
+			}
+		}, 'json');
 	});
 	
 	$(document).on('keyup', '#username, #password', function(e){
@@ -48,6 +78,8 @@ $(function() {
 	$(document).on('keypress', '#r-username', function(e){
 		var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
 		if (validateUsername(str) || e.keyCode == 8 || e.keyCode == 9 || e.keyCode == 37 || e.keyCode == 39) {
+			$('#msg-error p').hide();
+			$('#r-username').parent().removeClass('has-error');
 			return true;
 		}
 		e.preventDefault();
@@ -57,6 +89,8 @@ $(function() {
 	$(document).on('keypress', '#r-mobile', function(e){
 		var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
 		if (validateNumberOnly(str) || e.keyCode == 8 || e.keyCode == 9 || e.keyCode == 37 || e.keyCode == 39) {
+			$('#msg-error p').hide();
+			$('#r-mobile').parent().removeClass('has-error');
 			return true;
 		}
 		e.preventDefault();
@@ -74,6 +108,7 @@ $(function() {
 
 	$(document).on('keyup', '#r-email', function(e){
 		if ( $(this).val() != '' && validateEmail($(this).val()) ) {
+			$('#msg-error p').hide();
 			$(this).parent().removeClass('has-error');
 		}
 		else {

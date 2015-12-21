@@ -6,12 +6,13 @@ var http = require('http')
 	, methodOverride = require('method-override')
 	, bodyParser = require('body-parser')
 	, errorHandler = require('errorhandler')
-	, routes = require('./routes')
 	, i18n = require('i18n')	
 	, cookieParser = require('cookie-parser')
 	, compress = require('compression')
 	, useragent = require('express-useragent')
 	, jwt = require('jsonwebtoken')
+	, routes = require('./routes')
+	, request = require('request')
 
 global.config = require('./config.js');
 	
@@ -22,6 +23,7 @@ i18n.configure({
 });
 
 var app = express();
+var maxAge = 365 * 24 * 60 * 60 * 1000;
 
 app.set('port', config.port);
 app.set('views', path.join(__dirname, 'views'));
@@ -29,9 +31,9 @@ app.set('view engine', 'jade');
 app.use(favicon(__dirname + '/favicon.ico'));
 app.use(methodOverride());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public'), { maxAge: 365 * 24 * 60 * 60 * 1000 }));
+app.use(express.static(path.join(__dirname, 'public'), { maxAge: maxAge }));
 app.use(i18n.init);
-app.use(cookieParser(config.cookieSecret));
+app.use(cookieParser(config.publicKey));
 app.use(compress());
 app.use(useragent.express());
 
@@ -40,6 +42,8 @@ if ('development' == app.get('env')) {
 }
 
 app.get('*', function(req, res) {
+
+	//response.setHeader("Access-Control-Allow-Headers", "x-access-token, mytoken");
 
 	if (typeof req.cookies.language == 'undefined') {
 		res.cookie('language', 'th');
@@ -50,12 +54,11 @@ app.get('*', function(req, res) {
 
 	var url = req.url.split('/');
 	url = url.filter(function(n){ return n !== ''; });
-	if (url.length == 0); url[0] = '';
+	if (url.length == 0) url[0] = '';
 
-	//if (url.length >= 1 && url[0] == 'language')
 	if (url.length >= 1 && url[0] == 'language')
 	{
-		res.cookie('language', url[1]);
+		res.cookie('language', url[1], { maxAge: maxAge });
 		req.setLocale(url[1]);
 		res.redirect(req.get('referer'));
 	}
@@ -66,34 +69,75 @@ app.get('*', function(req, res) {
 		data.memberInfo = {};
 		data.memberInfo.locale = 'th';
 
-		var json = {
-			apiKey: config.apiKey,
-			ip: req.headers.x-forwarded-for,
-			host: req.headers.x-host,
-		};
-		data.token = jwt.sign(json, config.secretKey, { expiresInMinutes: 60*5 });
+		var util = require('./objects/util');
+		data.browserInfo = util.getBrowserInfo(req);
 
-		/*var ip = req.headers['x-forwarded-for'].split(',');
-		data.ip = ip[0];
-		data.browser = req.useragent.browser;
-		data.version = req.useragent.version;
-		data.platform = req.useragent.platform;
-		data.os = req.useragent.os;
-		if (req.useragent.isiPad) data.deviceType = 'iPad';
-		else if (req.useragent.isiPod) data.deviceType = 'iPod';
-		else if (req.useragent.isiPhone) data.deviceType = 'iPhone';
-		else if (req.useragent.isBlackberry) data.deviceType = 'Blackberry';
-		else if (req.useragent.isAndroidTablet) data.deviceType = 'Android Tablet';
-		else if (req.useragent.isAndroid) data.deviceType = 'Android';
-		else if (req.useragent.isDesktop) data.deviceType = 'Desktop';
-		else if (req.useragent.isMobile) data.deviceType = 'Mobile';
-		else if (req.useragent.isTablet) data.deviceType = 'Tablet';
-		else if (req.useragent.isRaspberry) data.deviceType = 'Raspberry Pi';
-		else if (req.useragent.isBot) data.deviceType = 'Bot';
-		else if (req.useragent.isCurl) data.deviceType = 'Curl';
-		else data.deviceType = '';
-		data.webUrl = req.protocol + '://' + req.get('host') ;
-		if (typeof req.cookies.memberKey != 'undefined' && req.cookies.memberKey != '') {
+		if (typeof req.cookies.token == 'undefined' || req.cookies.token == '') {
+			request.post({headers: { 'referer': 'https://'+req.headers['x-host'] }, url: config.apiUrlLocal + '/api/token/request',
+				form: { apiKey: config.apiKey,
+					secretKey: config.secretKey
+				} 
+			},
+			function (error, response, body) {
+				if (!error) {
+					data.json = JSON.parse(body);		
+					if(data.json.success){
+						res.cookie('token', data.json.token, { maxAge: maxAge });
+					}
+					else {
+						console.log(data.json);
+					}
+				}
+				else {
+					console.log(error);
+				}
+				data.screen = 'login';
+				routes.index(req, res, data);
+			});
+			/*browser: data.browserInfo.browser,
+				version: data.browserInfo.version,
+				platform: data.browserInfo.platform,
+				os: data.browserInfo.os,
+				deviceType: data.browserInfo.deviceType;*/
+		}
+		else {
+			request.post({headers: { 'referer': 'https://'+req.headers['x-host'] }, url: config.apiUrlLocal + '/member/info',
+				form: { token: req.cookies.token } 
+			},
+			function (error, response, body) {
+				if (!error) {
+					data.json = JSON.parse(body);
+					if(data.json.success){
+						//res.send("Mr. Theeradej");
+						data.screen = 'index';
+						data.info = data.json.result[0];
+						//console.log(data.json);
+					}
+					else{
+						data.screen = (typeof req.cookies.username != 'undefined' && req.cookies.username != '') ? 'lock' : 'login';
+					}
+				}
+				else {
+					data.screen = 'login';
+					console.log(error);
+				}
+				routes.index(req, res, data);
+			});
+		}
+
+		/*var json = {
+			apiKey: config.apiKey,
+			ip: req.headers['x-forwarded-for'],
+			host: req.headers['x-host'],
+		};*/
+		//localStorage.setItem('token', jwt.sign(json, config.secretKey));
+
+		//console.log( localStorage.getItem('token') );
+
+		
+		//data.webUrl = req.protocol + '://' + req.get('host') ;
+
+		/*if (typeof req.cookies.memberKey != 'undefined' && req.cookies.memberKey != '') {
 			var request = require('request');
 			request.post({headers: { 'referer': data.webUrl }, url: config.apiUrl + '/member/exist/memberKeyAndBrowser',
 				form: { apiKey: config.apiKey,
@@ -144,7 +188,7 @@ app.get('*', function(req, res) {
 		}
 		else {*/
 			
-			routes.index(req, res, data);
+			//routes.index(req, res, data);
 		//}
 	}
 

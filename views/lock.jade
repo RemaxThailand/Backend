@@ -1,12 +1,12 @@
 doctype html
-html(lang='en', ng-app='PowerDD')
+html(lang='en')
 	head
-		title= 'Sign in | PowerDD Backend'
+		title #{__('Sign in')} | #{config.systemName}
 		meta(charset='utf-8')
 		meta(content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no', name='viewport')
-		link(rel='stylesheet', href='//src.powerdd.com/libs/bootstrap/3.3.5/css/bootstrap.min.css')
-		link(rel='stylesheet', href='//src.powerdd.com/libs/font-awesome/4.4.0/css/font-awesome.min.css')
-		link(rel='stylesheet', href='//src.powerdd.com/libs/adminlte/2.3.0/css/AdminLTE.css')
+		link(rel='stylesheet', href='//src.remaxthailand.co.th/libs/bootstrap/3.3.5/css/bootstrap.min.css')
+		link(rel='stylesheet', href='//src.remaxthailand.co.th/libs/font-awesome/4.4.0/css/font-awesome.min.css')
+		link(rel='stylesheet', href='//src.remaxthailand.co.th/libs/adminlte/2.3.0/css/AdminLTE.thai.min.css')
 		link(rel='stylesheet', href='/stylesheets/lock.css')
 		link(rel='shortcut icon', href='favicon.ico', type='image/x-icon')
 		link(rel='icon', href='favicon.ico', type='image/x-icon')
@@ -16,7 +16,7 @@ html(lang='en', ng-app='PowerDD')
 			.lockscreen-name John Doe
 			.lockscreen-item
 				.lockscreen-image
-					img(src='//src.powerdd.com/libs/adminlte/2.3.0/img/user1-128x128.jpg', alt='User Image')
+					img(src='//src.remaxthailand.co.th/libs/adminlte/latest/img/user1-128x128.jpg', alt='User Image')
 				form.lockscreen-credentials
 					.input-group
 						input.form-control(type='password', placeholder='password')
@@ -29,10 +29,8 @@ html(lang='en', ng-app='PowerDD')
 				a(href='login.html') Or sign in as a different user
 								
 
-		script(src='//src.powerdd.com/libs/jquery/2.1.4/jquery.min.js')
-		script(src='//src.powerdd.com/libs/jquery-cookie/1.4.1/jquery.cookie.min.js')
-		script(src='//src.powerdd.com/libs/angular/1.4.6/angular.min.js')
-		script(src='//src.powerdd.com/libs/angular/ngStorage/0.3.9/ngStorage.min.js')
-		script(src='//src.powerdd.com/libs/bootstrap/3.3.5/js/bootstrap.min.js')
-		script(src='//src.powerdd.com/libs/adminlte/2.3.0/js/app.min.js')
+		script(src='//src.remaxthailand.co.th/libs/jquery/2.1.4/jquery.min.js')
+		script(src='//src.remaxthailand.co.th/libs/js-cookie/2.0.3/js.cookie.min.js')
+		script(src='//src.remaxthailand.co.th/libs/bootstrap/3.3.5/js/bootstrap.min.js')
+		script(src='//src.remaxthailand.co.th/libs/adminlte/latest/js/app.min.js')
 		script(src='/javascripts/common.js')

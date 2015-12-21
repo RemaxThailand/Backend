@@ -1,7 +1,7 @@
 doctype html
 html(lang='en')
 	head
-		title #{__('Sign in')} | PowerDD Backend System
+		title #{__('Sign in')} | #{config.systemName}
 		meta(charset='utf-8')
 		meta(content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no', name='viewport')
 		link(rel='stylesheet', href='//src.remaxthailand.co.th/libs/bootstrap/3.3.5/css/bootstrap.min.css')
@@ -12,6 +12,7 @@ html(lang='en')
 		link(rel='icon', href='favicon.ico', type='image/x-icon')
 
 	body.hold-transition.login-page.colorful
+		input#apiUrl(type='hidden', value='#{config.apiUrl}')
 		.login-box
 			.box.box-primary
 				.box-header.text-center.bg-light-blue
@@ -73,25 +74,25 @@ html(lang='en')
 
 				.footer
 					
-					.text-center.hidden
-						p.text-red
+					#msg-error.text-center.text-red.hidden
+						p#MBR0031.hidden
 							i.fa.fa-warning  
 							|  #{__('Username already exists')}
-						p.text-red
+						p#MBR0051.hidden
 							i.fa.fa-warning  
 							|  #{__('Mobile phone number already exists')}
-						p.text-red
+						p#MBR0061.hidden
 							i.fa.fa-warning  
 							|  #{__('Email already exists')}
-						p.text-red 
+						p.hidden
 							i.fa.fa-warning  
 							|  #{__('Invalid Username or Password')}
 
-					.text-center.text-green.hidden
-						p
+					#msg-success.text-center.text-green.hidden
+						p.register.hidden
 							i.fa.fa-check-circle  
 							|  #{__('Registration Successful')}
-						p
+						p.hidden
 							i.fa.fa-check-circle  
 							|  #{__('You have logged in successfully')}
 
@@ -109,7 +110,7 @@ html(lang='en')
 						a(href='javascript:') #{__('Sign in')}
 					p.link.link-register(data-group='register', data-hide='signin|forgot')
 						a(href='javascript:') #{__('Create account')}
-					p.link.link-forgot(data-group='forgot', data-hide='register|signin')
+					p.link.link-forgot.hidden(data-group='forgot', data-hide='register|signin')
 						a(href='javascript:') #{__('Forgot password')}
 
 		script(src='//src.remaxthailand.co.th/libs/jquery/2.1.4/jquery.min.js')
