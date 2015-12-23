@@ -13,20 +13,20 @@ html(lang='en')
 
 	body.hold-transition.lockscreen.colorful
 		.lockscreen-wrapper
-			.lockscreen-name John Doe
+			.lockscreen-name #{data.username}
 			.lockscreen-item
 				.lockscreen-image
 					img(src='//src.remaxthailand.co.th/libs/adminlte/latest/img/user1-128x128.jpg', alt='User Image')
 				form.lockscreen-credentials
 					.input-group
-						input.form-control(type='password', placeholder='password')
+						input.form-control(type='password', placeholder="#{__('password')}")
 						.input-group-btn
 							button.btn(type='button')
 								i.fa.fa-arrow-right.text-muted
 			.help-block.text-center
-				| Enter your password to retrieve your session
+				| 
 			.text-center
-				a(href='login.html') Or sign in as a different user
+				a(href='/logout/refresh') #{__('or')} #{__('Sign in with a different account')}
 								
 
 		script(src='//src.remaxthailand.co.th/libs/jquery/2.1.4/jquery.min.js')

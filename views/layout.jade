@@ -1,7 +1,7 @@
 doctype html
 html(lang='en')
 	head
-		title #{__('Sign in')} | #{config.systemName}
+		title #{__('Sign in')} | #{config.systemName} #{data.language}
 		meta(charset='utf-8')
 		meta(content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no', name='viewport')
 		link(rel='stylesheet', href='//src.remaxthailand.co.th/libs/bootstrap/3.3.5/css/bootstrap.min.css')
@@ -9,20 +9,16 @@ html(lang='en')
 		link(rel='stylesheet', href='//src.remaxthailand.co.th/libs/adminlte/latest/css/AdminLTE.min.css')
 		link(rel='stylesheet', href='//src.remaxthailand.co.th/libs/adminlte/latest/css/skins/skin-blue.min.css')
 
-	body.skin-blue		
+	body.skin-blue
 
 		.wrapper
 			header.main-header
-				// Logo
 				a.logo(href='index2.html')
-					// mini logo for sidebar mini 50x50 pixels
 					span.logo-mini
-						b A
-						| LT
-					// logo for regular state and mobile devices
+						b Remax
 					span.logo-lg
-						b Admin
-						| LTE
+						b Remax
+						| Thailand
 				// Header Navbar: style can be found in header.less
 				nav.navbar.navbar-static-top(role='navigation')
 					// Sidebar toggle button
@@ -181,16 +177,28 @@ html(lang='en')
 									li.footer
 										a(href='#') View all tasks
 							// User Account: style can be found in dropdown.less
+							
+									
+							li.dropdown.hidden-xs
+								a.dropdown-toggle(href="#", data-toggle="dropdown", role="button", aria-expanded="false") #{__('language')} 
+									span.caret
+								ul.dropdown-menu(role="menu")
+									li(class="#{data.language == 'th' ? 'active' : ''}")
+										a(href="#{data.language == 'th' ? 'javascript:void(0)' : '/language/th'}", class="#{data.language == 'th' ? 'color-white' : ''}") #{__('languageThai')}
+									li(class="#{data.language == 'en' ? 'active' : ''}")
+										a(href="#{data.language == 'en' ? 'javascript:void(0)' : '/language/en'}", class="#{data.language == 'en' ? 'color-white' : ''}") #{__('languageEnglish')}
+
+
 							li.dropdown.user.user-menu
 								a.dropdown-toggle(href='#', data-toggle='dropdown')
 									img.user-image(src='//src.remaxthailand.co.th/libs/adminlte/latest/img/user2-160x160.jpg', alt='User Image')
-									span.hidden-xs Alexander Pierce
+									span.hidden-xs #{data.memberInfo.displayName}
 								ul.dropdown-menu
 									// User image
 									li.user-header
 										img.img-circle(src='//src.remaxthailand.co.th/libs/adminlte/latest/img/user2-160x160.jpg', alt='User Image')
 										p
-											| Alexander Pierce - Web Developer
+											| #{data.memberInfo.displayName} - #{data.memberInfo.memberType}
 											small Member since Nov. 2012
 									// Menu Body
 									li.user-body
@@ -205,13 +213,9 @@ html(lang='en')
 									// Menu Footer
 									li.user-footer
 										.pull-left
-											a.btn.btn-default.btn-flat(href='#') Profile
+											a.btn.btn-default.btn-flat(href='#') #{__('Profile')}
 										.pull-right
-											a.btn.btn-default.btn-flat(href='#') Sign out
-							// Control Sidebar Toggle Button
-							li
-								a(href='#', data-toggle='control-sidebar')
-									i.fa.fa-gears
+											a.btn.btn-default.btn-flat(href='#') #{__('Sign out')}
 
 
 					block content
@@ -225,10 +229,10 @@ html(lang='en')
 						.pull-left.image
 							img.img-circle(src='//src.remaxthailand.co.th/libs/adminlte/latest/img/user2-160x160.jpg', alt='User Image')
 						.pull-left.info
-							p Alexander Pierce
+							p #{data.memberInfo.displayName}
 							a(href='#')
 								i.fa.fa-circle.text-success
-								|	Online
+								|	#{data.memberInfo.memberType}
 					// search form
 					form.sidebar-form(action='#', method='get')
 						.input-group
@@ -240,6 +244,14 @@ html(lang='en')
 					// sidebar menu: : style can be found in sidebar.less
 					ul.sidebar-menu
 						li.header MAIN NAVIGATION
+						for menu, key in data.menu
+							li(class="#{menu.hasChild == 1 ? 'treeview' : ''}")
+								a(href="#{menu.link}")
+									i(class="fa fa-#{menu.icon}") 
+									span &nbsp;#{__('screen-'+key+'-header')}
+									if menu.hasChild == 1
+										i.fa.fa-angle-left.pull-right
+
 						li.treeview
 							a(href='#')
 								i.fa.fa-dashboard
@@ -254,224 +266,7 @@ html(lang='en')
 									a(href='../../index2.html')
 										i.fa.fa-circle-o
 										|	Dashboard v2
-						li.treeview
-							a(href='#')
-								i.fa.fa-files-o
-								span Layout Options
-								span.label.label-primary.pull-right 4
-							ul.treeview-menu
-								li
-									a(href='../layout/top-nav.html')
-										i.fa.fa-circle-o
-										|	Top Navigation
-								li
-									a(href='../layout/boxed.html')
-										i.fa.fa-circle-o
-										|	Boxed
-								li
-									a(href='../layout/fixed.html')
-										i.fa.fa-circle-o
-										|	Fixed
-								li
-									a(href='../layout/collapsed-sidebar.html')
-										i.fa.fa-circle-o
-										|	Collapsed Sidebar
-						li
-							a(href='../widgets.html')
-								i.fa.fa-th
-								span Widgets
-								small.label.pull-right.bg-green Hot
-						li.treeview
-							a(href='#')
-								i.fa.fa-pie-chart
-								span Charts
-								i.fa.fa-angle-left.pull-right
-							ul.treeview-menu
-								li
-									a(href='../charts/chartjs.html')
-										i.fa.fa-circle-o
-										|	ChartJS
-								li
-									a(href='../charts/morris.html')
-										i.fa.fa-circle-o
-										|	Morris
-								li
-									a(href='../charts/flot.html')
-										i.fa.fa-circle-o
-										|	Flot
-								li
-									a(href='../charts/inline.html')
-										i.fa.fa-circle-o
-										|	Inline charts
-						li.treeview
-							a(href='#')
-								i.fa.fa-laptop
-								span UI Elements
-								i.fa.fa-angle-left.pull-right
-							ul.treeview-menu
-								li
-									a(href='../UI/general.html')
-										i.fa.fa-circle-o
-										|	General
-								li
-									a(href='../UI/icons.html')
-										i.fa.fa-circle-o
-										|	Icons
-								li
-									a(href='../UI/buttons.html')
-										i.fa.fa-circle-o
-										|	Buttons
-								li
-									a(href='../UI/sliders.html')
-										i.fa.fa-circle-o
-										|	Sliders
-								li
-									a(href='../UI/timeline.html')
-										i.fa.fa-circle-o
-										|	Timeline
-								li
-									a(href='../UI/modals.html')
-										i.fa.fa-circle-o
-										|	Modals
-						li.treeview
-							a(href='#')
-								i.fa.fa-edit
-								span Forms
-								i.fa.fa-angle-left.pull-right
-							ul.treeview-menu
-								li
-									a(href='../forms/general.html')
-										i.fa.fa-circle-o
-										|	General Elements
-								li
-									a(href='../forms/advanced.html')
-										i.fa.fa-circle-o
-										|	Advanced Elements
-								li
-									a(href='../forms/editors.html')
-										i.fa.fa-circle-o
-										|	Editors
-						li.treeview
-							a(href='#')
-								i.fa.fa-table
-								span Tables
-								i.fa.fa-angle-left.pull-right
-							ul.treeview-menu
-								li
-									a(href='../tables/simple.html')
-										i.fa.fa-circle-o
-										|	Simple tables
-								li
-									a(href='../tables/data.html')
-										i.fa.fa-circle-o
-										|	Data tables
-						li
-							a(href='../calendar.html')
-								i.fa.fa-calendar
-								span Calendar
-								small.label.pull-right.bg-red 3
-						li
-							a(href='../mailbox/mailbox.html')
-								i.fa.fa-envelope
-								span Mailbox
-								small.label.pull-right.bg-yellow 12
-						li.treeview.active
-							a(href='#')
-								i.fa.fa-folder
-								span Examples
-								i.fa.fa-angle-left.pull-right
-							ul.treeview-menu
-								li
-									a(href='invoice.html')
-										i.fa.fa-circle-o
-										|	Invoice
-								li
-									a(href='profile.html')
-										i.fa.fa-circle-o
-										|	Profile
-								li
-									a(href='login.html')
-										i.fa.fa-circle-o
-										|	Login
-								li
-									a(href='register.html')
-										i.fa.fa-circle-o
-										|	Register
-								li
-									a(href='lockscreen.html')
-										i.fa.fa-circle-o
-										|	Lockscreen
-								li
-									a(href='404.html')
-										i.fa.fa-circle-o
-										|	404 Error
-								li
-									a(href='500.html')
-										i.fa.fa-circle-o
-										|	500 Error
-								li.active
-									a(href='blank.html')
-										i.fa.fa-circle-o
-										|	Blank Page
-								li
-									a(href='pace.html')
-										i.fa.fa-circle-o
-										|	Pace Page
-						li.treeview
-							a(href='#')
-								i.fa.fa-share
-								span Multilevel
-								i.fa.fa-angle-left.pull-right
-							ul.treeview-menu
-								li
-									a(href='#')
-										i.fa.fa-circle-o
-										|	Level One
-								li
-									a(href='#')
-										i.fa.fa-circle-o
-										|	Level One 
-										i.fa.fa-angle-left.pull-right
-									ul.treeview-menu
-										li
-											a(href='#')
-												i.fa.fa-circle-o
-												|	Level Two
-										li
-											a(href='#')
-												i.fa.fa-circle-o
-												|	Level Two 
-												i.fa.fa-angle-left.pull-right
-											ul.treeview-menu
-												li
-													a(href='#')
-														i.fa.fa-circle-o
-														|	Level Three
-												li
-													a(href='#')
-														i.fa.fa-circle-o
-														|	Level Three
-								li
-									a(href='#')
-										i.fa.fa-circle-o
-										|	Level One
-						li
-							a(href='../../documentation/index.html')
-								i.fa.fa-book
-								span Documentation
-						li.header LABELS
-						li
-							a(href='#')
-								i.fa.fa-circle-o.text-red
-								span Important
-						li
-							a(href='#')
-								i.fa.fa-circle-o.text-yellow
-								span Warning
-						li
-							a(href='#')
-								i.fa.fa-circle-o.text-aqua
-								span Information
+
 				// /.sidebar
 			// ===============================================
 			// Content Wrapper. Contains page content
@@ -519,129 +314,7 @@ html(lang='en')
 					| .
 				|	All rights
 				|		 reserved.
-			// Control Sidebar
-			aside.control-sidebar.control-sidebar-dark
-				// Create the tabs
-				ul.nav.nav-tabs.nav-justified.control-sidebar-tabs
-					li
-						a(href='#control-sidebar-home-tab', data-toggle='tab')
-							i.fa.fa-home
-					li
-						a(href='#control-sidebar-settings-tab', data-toggle='tab')
-							i.fa.fa-gears
-				// Tab panes
-				.tab-content
-					// Home tab content
-					#control-sidebar-home-tab.tab-pane
-						h3.control-sidebar-heading Recent Activity
-						ul.control-sidebar-menu
-							li
-								a(href='javascript::;')
-									i.menu-icon.fa.fa-birthday-cake.bg-red
-									.menu-info
-										h4.control-sidebar-subheading Langdon's Birthday
-										p Will be 23 on April 24th
-							li
-								a(href='javascript::;')
-									i.menu-icon.fa.fa-user.bg-yellow
-									.menu-info
-										h4.control-sidebar-subheading Frodo Updated His Profile
-										p New phone +1(800)555-1234
-							li
-								a(href='javascript::;')
-									i.menu-icon.fa.fa-envelope-o.bg-light-blue
-									.menu-info
-										h4.control-sidebar-subheading Nora Joined Mailing List
-										p nora@example.com
-							li
-								a(href='javascript::;')
-									i.menu-icon.fa.fa-file-code-o.bg-green
-									.menu-info
-										h4.control-sidebar-subheading Cron Job 254 Executed
-										p Execution time 5 seconds
-						// /.control-sidebar-menu
-						h3.control-sidebar-heading Tasks Progress
-						ul.control-sidebar-menu
-							li
-								a(href='javascript::;')
-									h4.control-sidebar-subheading
-										| Custom Template Design
-										span.label.label-danger.pull-right 70%
-									.progress.progress-xxs
-										.progress-bar.progress-bar-danger(style='width: 70%')
-							li
-								a(href='javascript::;')
-									h4.control-sidebar-subheading
-										| Update Resume
-										span.label.label-success.pull-right 95%
-									.progress.progress-xxs
-										.progress-bar.progress-bar-success(style='width: 95%')
-							li
-								a(href='javascript::;')
-									h4.control-sidebar-subheading
-										| Laravel Integration
-										span.label.label-warning.pull-right 50%
-									.progress.progress-xxs
-										.progress-bar.progress-bar-warning(style='width: 50%')
-							li
-								a(href='javascript::;')
-									h4.control-sidebar-subheading
-										| Back End Framework
-										span.label.label-primary.pull-right 68%
-									.progress.progress-xxs
-										.progress-bar.progress-bar-primary(style='width: 68%')
-						// /.control-sidebar-menu
-					// /.tab-pane
-					// Stats tab content
-					#control-sidebar-stats-tab.tab-pane Stats Tab Content
-					// /.tab-pane
-					// Settings tab content
-					#control-sidebar-settings-tab.tab-pane
-						form(method='post')
-							h3.control-sidebar-heading General Settings
-							.form-group
-								label.control-sidebar-subheading
-									| Report panel usage
-									input.pull-right(type='checkbox', checked='')
-								p
-									| Some information about this general settings option
-							// /.form-group
-							.form-group
-								label.control-sidebar-subheading
-									| Allow mail redirect
-									input.pull-right(type='checkbox', checked='')
-								p
-									| Other sets of options are available
-							// /.form-group
-							.form-group
-								label.control-sidebar-subheading
-									| Expose author name in posts
-									input.pull-right(type='checkbox', checked='')
-								p
-									| Allow the user to show his name in blog posts
-							// /.form-group
-							h3.control-sidebar-heading Chat Settings
-							.form-group
-								label.control-sidebar-subheading
-									| Show me as online
-									input.pull-right(type='checkbox', checked='')
-							// /.form-group
-							.form-group
-								label.control-sidebar-subheading
-									| Turn off notifications
-									input.pull-right(type='checkbox')
-							// /.form-group
-							.form-group
-								label.control-sidebar-subheading
-									| Delete chat history
-									a.text-red.pull-right(href='javascript::;')
-										i.fa.fa-trash-o
-							// /.form-group
-					// /.tab-pane
-			// /.control-sidebar
-			//
-				Add the sidebar's background. This div must be placed
-				immediately after the control sidebar
+
 			.control-sidebar-bg
 
 		script(src='//src.remaxthailand.co.th/libs/jquery/2.1.4/jquery.min.js')

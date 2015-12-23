@@ -43,7 +43,7 @@ if ('development' == app.get('env')) {
 
 app.get('*', function(req, res) {
 
-	//response.setHeader("Access-Control-Allow-Headers", "x-access-token, mytoken");
+	//res.setHeader("Access-Control-Allow-Headers", "x-access-token, mytoken");
 
 	if (typeof req.cookies.language == 'undefined') {
 		res.cookie('language', 'th');
@@ -62,15 +62,24 @@ app.get('*', function(req, res) {
 		req.setLocale(url[1]);
 		res.redirect(req.get('referer'));
 	}
+	else if (url.length >= 1 && url[0] == 'logout')
+	{
+		res.clearCookie('token');
+		if (typeof url[1] != 'undefined' && url[1] == 'refresh' ) res.clearCookie('username');
+		res.redirect( 'https://'+req.headers['x-host'] );
+	}
 	else {
 		data = {};
 		data.screen = (typeof req.cookies.memberKey == 'undefined' || req.cookies.memberKey == '') ? 'login' : 'index';
 		data.language = req.cookies.language;
+		data.username = req.cookies.username;
 		data.memberInfo = {};
-		data.memberInfo.locale = 'th';
 
-		var util = require('./objects/util');
-		data.browserInfo = util.getBrowserInfo(req);
+		if (typeof req.cookies.info == 'undefined' || req.cookies.info == '') {
+			var util = require('./objects/util');
+			data.browserInfo = util.getBrowserInfo(req);
+			res.cookie('info', jwt.sign(data.browserInfo, config.secretKey), { maxAge: maxAge });
+		}
 
 		if (typeof req.cookies.token == 'undefined' || req.cookies.token == '') {
 			request.post({headers: { 'referer': 'https://'+req.headers['x-host'] }, url: config.apiUrlLocal + '/api/token/request',
@@ -80,7 +89,7 @@ app.get('*', function(req, res) {
 			},
 			function (error, response, body) {
 				if (!error) {
-					data.json = JSON.parse(body);		
+					data.json = JSON.parse(body);
 					if(data.json.success){
 						res.cookie('token', data.json.token, { maxAge: maxAge });
 					}
@@ -91,14 +100,9 @@ app.get('*', function(req, res) {
 				else {
 					console.log(error);
 				}
-				data.screen = 'login';
+				data.screen = (typeof req.cookies.username != 'undefined' && req.cookies.username != '') ? 'lock' : 'login';
 				routes.index(req, res, data);
 			});
-			/*browser: data.browserInfo.browser,
-				version: data.browserInfo.version,
-				platform: data.browserInfo.platform,
-				os: data.browserInfo.os,
-				deviceType: data.browserInfo.deviceType;*/
 		}
 		else {
 			request.post({headers: { 'referer': 'https://'+req.headers['x-host'] }, url: config.apiUrlLocal + '/member/info',
@@ -107,18 +111,19 @@ app.get('*', function(req, res) {
 			function (error, response, body) {
 				if (!error) {
 					data.json = JSON.parse(body);
+					console.log(data.json);
 					if(data.json.success){
-						//res.send("Mr. Theeradej");
 						data.screen = 'index';
-						data.info = data.json.result[0];
-						//console.log(data.json);
+						data.memberInfo = data.json.memberInfo;
+						data.memberInfo.displayName = data.json.memberInfo.firstname || data.json.memberInfo.username;
+						data.menu = data.json.screen;
 					}
 					else{
 						data.screen = (typeof req.cookies.username != 'undefined' && req.cookies.username != '') ? 'lock' : 'login';
 					}
 				}
 				else {
-					data.screen = 'login';
+					data.screen = (typeof req.cookies.username != 'undefined' && req.cookies.username != '') ? 'lock' : 'login';
 					console.log(error);
 				}
 				routes.index(req, res, data);

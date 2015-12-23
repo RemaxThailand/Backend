@@ -1,3 +1,5 @@
+var failedCount = 0;
+
 $(function() {
 
 	$('.hidden').removeClass('hidden').hide();
@@ -17,11 +19,36 @@ $(function() {
 	});
 
 	$(document).on('click', '#btn-signin', function(){
-		var $btn = $(this).button('loading');
+		var $btn = $(this);
+		$btn.button('loading');
 		$('.link-register, .link-forgot').hide();
 		$('form.group-signin input').attr('disabled', 'disabled').addClass('disabled');
 		$('form.group-signin .dropdown-toggle').removeAttr('data-toggle');
-		//console.log( '#btn-signin' );
+
+		$('#msg-error p, #msg-success p').hide();
+		
+		$.post($('#apiUrl').val()+'/member/login', {
+			token: Cookies.get('token'),
+			username: $.trim($('#username').val()),
+			password: $('#password').val(),
+			info: Cookies.get('info'),
+			failedCount: failedCount
+		}, function(data){
+			if ( data.success ){
+				if ($('#remember').is(':checked')) Cookies.set('token', data.token, { expires: 365 });
+				else Cookies.set('token', data.token);
+				Cookies.set('username', $.trim($('#username').val()), { expires: 365 });
+				location.reload();
+			}
+			else {
+				$('.link-register, .link-forgot').show();
+				$('form.group-signin input').attr('disabled', '').removeAttr('disabled').removeClass('disabled');
+				$('form.group-signin .dropdown-toggle').attr('data-toggle', 'dropdown');
+				$('#msg-error, #'+data.error).show();
+				$btn.button('reset');
+				failedCount++;
+			}
+		});
 	});
 
 	$(document).on('click', '#btn-register', function(){
@@ -69,6 +96,7 @@ $(function() {
 	});
 	
 	$(document).on('keydown', '#username, #password', function(e){
+		$('#msg-error p, #msg-success p').fadeOut();
 		var key = e.charCode || e.keyCode || 0;
 		if (key == 13 && $('#username').val() != '' && $('#password').val() != '' ) {
 			$('#btn-signin').click();
