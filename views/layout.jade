@@ -1,7 +1,7 @@
 doctype html
 html(lang='en')
 	head
-		title #{__('Sign in')} | #{config.systemName} #{data.language}
+		title #{__('screen-'+data.screen+'-header')} | #{config.systemName} #{data.language}
 		meta(charset='utf-8')
 		meta(content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no', name='viewport')
 		link(rel='stylesheet', href='//src.remaxthailand.co.th/libs/bootstrap/3.3.5/css/bootstrap.min.css')
@@ -179,26 +179,34 @@ html(lang='en')
 							// User Account: style can be found in dropdown.less
 							
 									
-							li.dropdown.hidden-xs
+							li.dropdown
 								a.dropdown-toggle(href="#", data-toggle="dropdown", role="button", aria-expanded="false") #{__('language')} 
 									span.caret
 								ul.dropdown-menu(role="menu")
 									li(class="#{data.language == 'th' ? 'active' : ''}")
-										a(href="#{data.language == 'th' ? 'javascript:void(0)' : '/language/th'}", class="#{data.language == 'th' ? 'color-white' : ''}") #{__('languageThai')}
+										a(href="#{data.language == 'th' ? 'javascript:void(0)' : #{data.webUrl}+'/language/th'}", class="#{data.language == 'th' ? 'color-white' : ''}") #{__('languageThai')}
 									li(class="#{data.language == 'en' ? 'active' : ''}")
-										a(href="#{data.language == 'en' ? 'javascript:void(0)' : '/language/en'}", class="#{data.language == 'en' ? 'color-white' : ''}") #{__('languageEnglish')}
+										a(href="#{data.language == 'en' ? 'javascript:void(0)' : #{data.webUrl}+'/language/en'}", class="#{data.language == 'en' ? 'color-white' : ''}") #{__('languageEnglish')}
 
+							if data.memberType.length > 1
+								li.dropdown
+									a.dropdown-toggle(href="#", data-toggle="dropdown", role="button", aria-expanded="false") #{__('memberRoles')} 
+										span.caret
+									ul.dropdown-menu(role="menu")
+										for list in data.memberType
+											li(class="#{list.memberType == data.memberInfo.memberType ? 'active' : ''}")
+												a(href="#{data.webUrl}/updateRole/#{list.memberType}") #{__('role-'+list.memberType)}
 
 							li.dropdown.user.user-menu
 								a.dropdown-toggle(href='#', data-toggle='dropdown')
 									img.user-image(src='//src.remaxthailand.co.th/libs/adminlte/latest/img/user2-160x160.jpg', alt='User Image')
-									span.hidden-xs #{data.memberInfo.displayName}
+									span #{data.memberInfo.displayName}
 								ul.dropdown-menu
 									// User image
 									li.user-header
 										img.img-circle(src='//src.remaxthailand.co.th/libs/adminlte/latest/img/user2-160x160.jpg', alt='User Image')
 										p
-											| #{data.memberInfo.displayName} - #{data.memberInfo.memberType}
+											| #{data.memberInfo.displayName} - #{__('role-'+data.memberInfo.memberType)}
 											small Member since Nov. 2012
 									// Menu Body
 									li.user-body
@@ -215,10 +223,8 @@ html(lang='en')
 										.pull-left
 											a.btn.btn-default.btn-flat(href='#') #{__('Profile')}
 										.pull-right
-											a.btn.btn-default.btn-flat(href='#') #{__('Sign out')}
+											a.btn.btn-default.btn-flat(href='/logout') #{__('Sign out')}
 
-
-					block content
 
 			// Left side column. contains the sidebar
 			aside.main-sidebar
@@ -232,7 +238,7 @@ html(lang='en')
 							p #{data.memberInfo.displayName}
 							a(href='#')
 								i.fa.fa-circle.text-success
-								|	#{data.memberInfo.memberType}
+								|	#{__('role-'+data.memberInfo.memberType)}
 					// search form
 					form.sidebar-form(action='#', method='get')
 						.input-group
@@ -240,78 +246,50 @@ html(lang='en')
 							span.input-group-btn
 								button#search-btn.btn.btn-flat(type='submit', name='search')
 									i.fa.fa-search
-					// /.search form
-					// sidebar menu: : style can be found in sidebar.less
+
 					ul.sidebar-menu
-						li.header MAIN NAVIGATION
 						for menu, key in data.menu
-							li(class="#{menu.hasChild == 1 ? 'treeview' : ''}")
-								a(href="#{menu.link}")
+							li(class="#{data.screen == key || data.screen.indexOf(key+'-') > -1 ? 'active' : ''} #{menu.hasChild == 1 ? 'treeview' : ''}")
+								a(href="#{data.webUrl}#{menu.link}")
 									i(class="fa fa-#{menu.icon}") 
 									span &nbsp;#{__('screen-'+key+'-header')}
 									if menu.hasChild == 1
 										i.fa.fa-angle-left.pull-right
+									if menu.hasChild
+										ul.treeview-menu
+											for subMenu, subKey in menu.child
+												li(id="subMenu#{subMenu.replace(/\//g, '-')}", class="#{data.screen == subKey ? 'active' : ''}")
+													a(href="#{subMenu}")
+														i.fa.fa-circle-o(class="#{data.screen == subKey ? 'text-yellow' : ''}") 
+														span &nbsp; #{__('screen-'+subKey+'-header')}
+														small.badge.pull-right.hidden
 
-						li.treeview
-							a(href='#')
-								i.fa.fa-dashboard
-								span Dashboard
-								i.fa.fa-angle-left.pull-right
-							ul.treeview-menu
-								li
-									a(href='../../index.html')
-										i.fa.fa-circle-o
-										|	Dashboard v1
-								li
-									a(href='../../index2.html')
-										i.fa.fa-circle-o
-										|	Dashboard v2
-
-				// /.sidebar
-			// ===============================================
-			// Content Wrapper. Contains page content
 			.content-wrapper
 				// Content Header (Page header)
 				section.content-header
 					h1
-						| หน้าหลัก
-						small it all starts here
+						| &nbsp;#{__('screen-'+data.screen+'-header')} 
+						small #{__('screen-'+data.screen+'-detail')}
 					ol.breadcrumb
 						li
-							a(href='#')
+							a(href="/")
 								i.fa.fa-dashboard
-								|	Home
-						li
-							a(href='#') Examples
-						li.active Blank page
+								| &nbsp;#{__('home')}
+						li.active &nbsp;#{__('screen-'+data.screen+'-header')} 
+
+
 				// Main content
 				section.content
-					// Default box
-					.box
-						.box-header.with-border
-							h3.box-title Title
-							.box-tools.pull-right
-								button.btn.btn-box-tool(type='button', data-widget='collapse', data-toggle='tooltip', title='Collapse')
-									i.fa.fa-minus
-								button.btn.btn-box-tool(type='button', data-widget='remove', data-toggle='tooltip', title='Remove')
-									i.fa.fa-times
-						.box-body
-							| Start creating your amazing application!
-						// /.box-body
-						.box-footer
-							| Footer
-						// /.box-footer
-					// /.box
-				// /.content
-			// /.content-wrapper
+
+					block content
+
 			footer.main-footer
-				.pull-right.hidden-xs
+				.pull-right
 					b Version
-					|	2.3.2
+					|	3.0
 				strong
-					| Copyright © 2014-2015 
-					a(href='http://almsaeedstudio.com') Almsaeed Studio
-					| .
+					| Copyright &copy; 2015 
+					a(href='http://www.remaxthailand.co.th') Remax (Thailand) Co.,Ltd.
 				|	All rights
 				|		 reserved.
 

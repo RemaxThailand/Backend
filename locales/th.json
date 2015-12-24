@@ -125,6 +125,7 @@
 	"amphoe": "อำเภอ",
 	"male": "ชาย",
 	"female": "หญิง",
+	"admin": "ผู้ดูแลระบบ",
 	"memberRoles": "สิทธิ์การใช้งาน",
 	"loginAs": "เข้าระบบโดยใช้สิทธิ์ ...",
 	"role-administrator": "ผู้ดูแลระบบ",
@@ -241,8 +242,8 @@
 	"screen-permission-detail": " ",
 	"screen-dashboard-header": "ภาพรวมระบบ",
 	"screen-dashboard-detail": " ",
-	"screen-administrator-header": "ผู้ดูแลระบบ",
-	"screen-administrator-detail": "จัดการข้อมูลต่างๆ ในระบบ",
+	"screen-admin-header": "ผู้ดูแลระบบ",
+	"screen-admin-detail": "จัดการข้อมูลต่างๆ ในระบบ",
 	"screen-teamwork-header": "ทีมงาน",
 	"screen-teamwork-detail": "จัดการข้อมูลสายงาน",
 	"screen-product-header": "สินค้า",
@@ -302,5 +303,7 @@
 	"screen-0-header": "screen-0-header",
 	"screen-1-header": "screen-1-header",
 	"screen-2-header": "screen-2-header",
-	"screen-3-header": "screen-3-header"
+	"screen-3-header": "screen-3-header",
+	"screen-index-header": "screen-index-header",
+	"screen-indexdetail": "screen-indexdetail"
 }

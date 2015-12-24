@@ -55,6 +55,9 @@ app.get('*', function(req, res) {
 	var url = req.url.split('/');
 	url = url.filter(function(n){ return n !== ''; });
 	if (url.length == 0) url[0] = '';
+	
+	data = {};
+	data.webUrl = 'https://'+req.headers['x-host'];
 
 	if (url.length >= 1 && url[0] == 'language')
 	{
@@ -66,10 +69,31 @@ app.get('*', function(req, res) {
 	{
 		res.clearCookie('token');
 		if (typeof url[1] != 'undefined' && url[1] == 'refresh' ) res.clearCookie('username');
-		res.redirect( 'https://'+req.headers['x-host'] );
+		res.redirect( data.webUrl );
+	}
+	else if (url.length >= 1 && url[0] == 'updateRole')
+	{
+		request.post({headers: { 'referer': data.webUrl }, url: config.apiUrlLocal + '/member/update/role',
+			form: { token: req.cookies.token,
+				role: url[1]
+			} 
+		},
+		function (error, response, body) {
+			if (!error) {
+				data.json = JSON.parse(body);
+				if(data.json.success){
+				}
+				else {
+					console.log(data.json);
+				}
+			}
+			else {
+				console.log(error);
+			}
+			res.redirect(req.get('referer'));
+		});
 	}
 	else {
-		data = {};
 		data.screen = (typeof req.cookies.memberKey == 'undefined' || req.cookies.memberKey == '') ? 'login' : 'index';
 		data.language = req.cookies.language;
 		data.username = req.cookies.username;
@@ -82,7 +106,7 @@ app.get('*', function(req, res) {
 		}
 
 		if (typeof req.cookies.token == 'undefined' || req.cookies.token == '') {
-			request.post({headers: { 'referer': 'https://'+req.headers['x-host'] }, url: config.apiUrlLocal + '/api/token/request',
+			request.post({headers: { 'referer': data.webUrl }, url: config.apiUrlLocal + '/api/token/request',
 				form: { apiKey: config.apiKey,
 					secretKey: config.secretKey
 				} 
@@ -105,96 +129,38 @@ app.get('*', function(req, res) {
 			});
 		}
 		else {
-			request.post({headers: { 'referer': 'https://'+req.headers['x-host'] }, url: config.apiUrlLocal + '/member/info',
+			request.post({headers: { 'referer': data.webUrl }, url: config.apiUrlLocal + '/member/info',
 				form: { token: req.cookies.token } 
 			},
 			function (error, response, body) {
 				if (!error) {
 					data.json = JSON.parse(body);
-					console.log(data.json);
 					if(data.json.success){
-						data.screen = 'index';
 						data.memberInfo = data.json.memberInfo;
 						data.memberInfo.displayName = data.json.memberInfo.firstname || data.json.memberInfo.username;
 						data.menu = data.json.screen;
+						data.memberType = data.json.memberType;
+						data.screen = (typeof url[0] != 'undefined' && url[0] != '') ? ((typeof url[1] != 'undefined' && url[1] != '') ? url[0]+'-'+url[1] : url[0]) : 'dashboard';
+						console.log(data.screen);
+						if ( data.screen != 'dashboard' && JSON.stringify(data.menu).indexOf('"/'+ data.screen.replace('-','/') +'"') == -1 ) data.screen = 'permission';
+						fs.exists('./views/'+data.screen+'.jade', function (exists) {
+							if (!exists) data.screen = 'dashboard';
+							routes.index(req, res, data);
+						});
 					}
 					else{
 						data.screen = (typeof req.cookies.username != 'undefined' && req.cookies.username != '') ? 'lock' : 'login';
+						routes.index(req, res, data);
 					}
 				}
 				else {
 					data.screen = (typeof req.cookies.username != 'undefined' && req.cookies.username != '') ? 'lock' : 'login';
-					console.log(error);
-				}
-				routes.index(req, res, data);
-			});
-		}
-
-		/*var json = {
-			apiKey: config.apiKey,
-			ip: req.headers['x-forwarded-for'],
-			host: req.headers['x-host'],
-		};*/
-		//localStorage.setItem('token', jwt.sign(json, config.secretKey));
-
-		//console.log( localStorage.getItem('token') );
-
-		
-		//data.webUrl = req.protocol + '://' + req.get('host') ;
-
-		/*if (typeof req.cookies.memberKey != 'undefined' && req.cookies.memberKey != '') {
-			var request = require('request');
-			request.post({headers: { 'referer': data.webUrl }, url: config.apiUrl + '/member/exist/memberKeyAndBrowser',
-				form: { apiKey: config.apiKey,
-					memberKey: req.cookies.memberKey,
-					ip: data.ip,
-					browser: data.browser,
-					version: data.version,
-					platform: data.platform,
-					os: data.os,
-					deviceType: data.deviceType
-				} 
-			},
-			function (error, response, body) {
-				if (!error) {					
-					data.json = JSON.parse(body);
-					if(data.json.success){
-						//res.send("Mr. Theeradej");
-						data.screen = 'index';					
-						//console.log(data.json);
-					}
-					else{
-						
-						data.screen = (typeof req.cookies.username != 'undefined' && req.cookies.username != '') ? 'lock' : 'login';
-					}
-				}
-				else {
-					data.screen = 'login';
+					routes.index(req, res, data);
 					console.log(error);
 				}
 				
-				routes.index(req, res, data);
 			});
 		}
-		else if ( data.screen != 'login' ) {
-			if ( url.length >= 1 ) {
-				data.screen = url[0];
-				fs.exists('./views/'+data.screen+'.jade', function (exists) {
-					if (exists) {
-						fs.exists('./public/javascripts/'+data.screen+'.js', function (exists) {
-							data.script = (exists) ? '/javascripts/'+data.screen+'.js' : '';	
-							data.subUrl = (url.length == 1 ) ? '' : url[1];
-						});
-					}
-				});
-				
-				routes.index(req, res, data);
-			}
-		}
-		else {*/
-			
-			//routes.index(req, res, data);
-		//}
 	}
 
 });
