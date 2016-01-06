@@ -1,0 +1,50 @@
+extends layout
+
+block content
+
+	.box
+		.box-header
+			h3.box-title Responsive Hover Table
+							
+			.box-tools.pull-right
+				.input-group.input-group-sm
+					.input-group-btn.hidden
+					input.form-control(type='text', name='table_search', placeholder="#{__('search')}...")
+					.input-group-btn(data-toggle='tooltip', title="#{__('search')}")
+						button.btn.btn-box-tool(type='button')
+							i.fa.fa-search
+					.input-group-btn(data-toggle='tooltip', title="#{__('group')}")
+						button.btn.btn-box-tool.dropdown-toggle(type='button', data-toggle='dropdown')
+							i.fa.fa-wrench
+						ul.dropdown-menu(role='menu')
+							li
+								a(href='#') Action
+							li
+								a(href='#') Another action
+							li
+								a(href='#') Something else here
+							li.divider
+							li
+								a(href='#') Separated link
+			//.box-tools
+				//.input-group.input-group-sm(style='width: 150px;')
+				//	input.form-control.pull-right(type='text', name='table_search', placeholder='Search')
+				//	.input-group-btn
+				//		button.btn.btn-default(type='submit')
+				//			i.fa.fa-search
+		// /.box-header
+		.box-body.table-responsive.no-padding
+			table#tb-main.table.table-hover
+				tr
+					th ID
+					th User
+					th Date
+					th Status
+					th Reason
+				tr
+					td 183
+					td John Doe
+					td 11-7-2014
+					td
+						span.label.label-success Approved
+					td Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.

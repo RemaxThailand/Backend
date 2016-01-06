@@ -298,5 +298,7 @@
 	"Invalid Username or Password": "Invalid Username or Password",
 	"You have logged in successfully": "You have logged in successfully",
 	"Working Status": "Working Status",
-	"Verify": "Verify"
+	"Verify": "Verify",
+	"Profile": "Profile",
+	"id": "ID"
 }

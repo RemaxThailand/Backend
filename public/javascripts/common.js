@@ -1,13 +1,10 @@
-var app = angular.module('PowerDD', ['ngStorage']);
+$(function() {
+	$('.box-tools [data-toggle="tooltip"]').tooltip({
+		animated : 'fade',
+		placement : 'top',
+		container: 'body'
+	});
 
-app.controller('Backend', function($scope, $localStorage) {
-	$scope.$storage = $localStorage.$default({ authKey: '' });
-
-	if ( $scope.$storage.authKey == '' ) {
-		console.log('xxx');
-	}
-	else {
-		console.log('yyy');
-	}
+	$('.hidden').removeClass('hidden').hide();
 
 });

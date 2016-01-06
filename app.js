@@ -145,7 +145,16 @@ app.get('*', function(req, res) {
 						if ( data.screen != 'dashboard' && JSON.stringify(data.menu).indexOf('"/'+ data.screen.replace('-','/') +'"') == -1 ) data.screen = 'permission';
 						fs.exists('./views/'+data.screen+'.jade', function (exists) {
 							if (!exists) data.screen = 'dashboard';
-							routes.index(req, res, data);
+							fs.exists('./public/javascripts/'+data.screen+'.js', function (exists) {
+								data.hasScript = exists;
+								if ( data.screen == 'admin-member' ) {
+									exports.memberList(req, res, data, routes);
+								}
+								else {
+									routes.index(req, res, data);
+								}
+							});
+							
 						});
 					}
 					else{
@@ -169,3 +178,17 @@ var server = http.createServer(app);
 server.listen(app.get('port'), function(){
 	console.log('Express server listening on port ' + app.get('port'));
 });
+
+exports.memberList = function(req, res, data, routes) {
+	
+	request.post({headers: { 'referer': data.webUrl }, url: config.apiUrlLocal + '/member/list',
+		form: { token: req.cookies.token } 
+	},
+	function (error, response, body) {
+		if (!error) {
+			var json = JSON.parse(body);
+			data.result = json.result;
+		}
+		routes.index(req, res, data);
+	});
+}
