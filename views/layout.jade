@@ -8,6 +8,7 @@ html(lang='en')
 		link(rel='stylesheet', href='//src.remaxthailand.co.th/libs/font-awesome/4.4.0/css/font-awesome.min.css')
 		link(rel='stylesheet', href='//src.remaxthailand.co.th/libs/adminlte/latest/css/AdminLTE.min.css')
 		link(rel='stylesheet', href='//src.remaxthailand.co.th/libs/adminlte/latest/css/skins/skin-blue.min.css')
+		link(rel='stylesheet', href='/stylesheets/style.css')
 		if data.screen == 'admin-member'
 			link(rel='stylesheet', href='//src.remaxthailand.co.th/libs/adminlte/latest/plugins/datatables/dataTables.bootstrap.css')
 
@@ -294,5 +295,7 @@ html(lang='en')
 		if data.screen == 'admin-member'
 			script(src='//src.remaxthailand.co.th/libs/adminlte/latest/plugins/datatables/jquery.dataTables.min.js')
 			script(src='//src.remaxthailand.co.th/libs/adminlte/latest/plugins/datatables/dataTables.bootstrap.min.js')
+		if data.screen == 'product'
+			script(src='//src.remaxthailand.co.th/libs/ScrollToFixed/1.0.7/jquery-scrolltofixed-min.js')
 		if data.hasScript
 			script(src='/javascripts/#{data.screen}.js')

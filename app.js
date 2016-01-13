@@ -141,7 +141,7 @@ app.get('*', function(req, res) {
 						data.menu = data.json.screen;
 						data.memberType = data.json.memberType;
 						data.screen = (typeof url[0] != 'undefined' && url[0] != '') ? ((typeof url[1] != 'undefined' && url[1] != '') ? url[0]+'-'+url[1] : url[0]) : 'dashboard';
-						console.log(data.screen);
+
 						if ( data.screen != 'dashboard' && JSON.stringify(data.menu).indexOf('"/'+ data.screen.replace('-','/') +'"') == -1 ) data.screen = 'permission';
 						fs.exists('./views/'+data.screen+'.jade', function (exists) {
 							if (!exists) data.screen = 'dashboard';

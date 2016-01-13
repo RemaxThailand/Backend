@@ -1,3 +1,136 @@
 extends layout
 
 block content
+
+	#dv-loading.alert.alert-info.alert-dismissible.text-center
+		i.fa.fa-cog.fa-spin.fa-2x
+		span.loading &nbsp;#{__('loadingData')}
+
+	.row
+		.col-md-3
+			#dv-category.box.box-primary.wait
+				.box-header
+					h3.box-title #{__('productCategory')}
+				.line
+				.box-body
+					ul#ul-category.nav.nav-pills.nav-stacked
+					
+		.col-md-9
+			#dv-cart.box.box-solid.transition-bg.wait
+				.box-body
+					.pull-left.margin-top-5
+						i.fa.fa-shopping-cart.text-light-blue  
+						b.text-light-blue  #{__('itemOnCart')} 
+						i.fa.fa-angle-right
+						span.sp-no_item
+							|  #{__('cart is empty')}
+						span.sp-has_item.hidden
+							|  &nbsp;
+							b#items.text-red 0
+							|  #{__('item(s)')} : 
+							b#pieces.text-red  8
+							|  #{__('piece(s)')}
+					.pull-right.sp-has_item.hidden
+						|  #{__('total price')} 
+						b#totalPrice.text-red 5
+						|  #{__('baht')}
+						|  &nbsp; 
+						a.btn.btn-warning.btn-sm(href="/cart", role="button") #{__('confirm order')}
+					.clearfix
+
+
+			.page-tool.wait
+				.pull-left
+					h2#dv-header.page-header-left.margin-top-0 Category
+
+				form#frm-main.form-inline.pull-right(role="form")
+					.form-group
+						.btn-group
+							span#btn-list-view.btn.btn-default
+								i.fa.fa-th-list
+							span#btn-box-view.btn.btn-default
+								i.fa.fa-th-large
+					span#cb-show_image.form-group.btn.btn-default.margin-left-3
+						i.fa.fa-image
+						|  #{__('show')}
+					.form-group.dv-search.margin-left-3
+						.input-group
+							input#txt-search.form-control(type="search", placeholder="#{__('search')}")
+							span.input-group-addon
+								i.fa.fa-search
+					span.form-group.btn.btn-default.margin-left-3
+						i.fa.fa-lg.fa-shopping-cart
+				.clearfix
+
+			ul#tab.nav.nav-tabs.tab-brand.wait(role="tablist")
+				li.brand-.active.font-bold(data-id="")
+					a(href="javascript:void(0)") #{__('all')}
+
+			.table-responsive
+				table#tb-result.table.table-condensed.table-hover.wait
+					thead
+						tr.bg-white.font-sm(style="border-left: 1px solid #ddd; border-right: 1px solid #ddd")
+							th.td-thumb(width="100", nowrap="nowrap")
+							th(nowrap="nowrap") #{__('productName')}
+							th.stock.text-right.hidden(width="60", nowrap="nowrap") #{__('remain')}
+							th.text-right(width="70", nowrap="nowrap") #{__('retailPrice')}
+							th.wholesalePrice.text-right.hidden(width="60", nowrap="nowrap") #{__('wholesalePrice')}
+							th.wholesalePrice1.text-right.hidden(width="90", nowrap="nowrap") #{__('wholesalePrice')} 1
+							th.wholesalePrice2.text-right.hidden(width="90", nowrap="nowrap") #{__('wholesalePrice')} 2
+							th.price1.text-right.hidden(width="60", nowrap="nowrap") #{__('price')} 1
+							th.price2.text-right.hidden(width="60", nowrap="nowrap") #{__('price')} 2
+							th.price3.text-right.hidden(width="60", nowrap="nowrap") #{__('price')} 3
+							th.price4.text-right.hidden(width="60", nowrap="nowrap") #{__('price')} 4
+							th.price5.text-right.hidden(width="60", nowrap="nowrap") #{__('price')} 5
+					tbody
+
+			#dv-box.padding-top-15
+
+	#dv-add_cart.modal.fade(tabindex='-1', role='dialog')
+		.modal-dialog.modal-sm
+			.modal-content
+				.modal-header
+					button.close(type='button', data-dismiss='modal')
+						span(aria-hidden='true') &times;
+						span.sr-only Close
+					h4.modal-title
+						span #{__('orders')}
+				.modal-body
+					.input-group
+						.input-group-addon #{__('quantity')}
+						input.txt-qty.form-control(type='text', value='1')
+						span.input-group-btn
+							button.btn-save.btn.btn-warning(type='button')
+								i.fa.fa-check-circle
+								|   #{__('save data')}
+				.modal-footer
+					button.btn.btn-default(type='button', data-dismiss='modal') #{__('cancel')}
+
+	#dv-view_image.modal.fade(tabindex='-1', role='dialog')
+		.modal-dialog.modal-md
+			.modal-content
+				.modal-body(style="padding:0")
+					div#carousel-product
+						ol.carousel-indicators
+						div.carousel-inner(role='listbox')
+						a.left.carousel-control(href="#carousel-product", role="button", data-slide="prev")
+							span.glyphicon.glyphicon-chevron-left(aria-hidden="true")
+							span.sr-only Previous
+						a.right.carousel-control(href="#carousel-product", role="button", data-slide="next")
+							span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
+							span.sr-only Next
+
+				.modal-footer
+					.row
+						.col-sm-6
+							.input-group
+								.input-group-addon #{__('quantity')}
+								input.txt-qty.form-control(type='text', value='1')
+								span.input-group-btn
+									button.btn-save.btn.btn-warning(type='button')
+										i.fa.fa-check-circle
+										|   #{__('orderNow')}
+						.col-sm-6
+							button.btn.btn-default(type='button', data-dismiss='modal') #{__('cancel')}
+
+
