@@ -1,8 +1,22 @@
 
+.padding-top-15 { padding-top: 15px !important }
+.padding-left-30 { padding-left:30px !important }
 .margin-left-3 { margin-left:3px !important }
 
 .line { border-bottom: 1px dotted #c9c9c9 }
 .bg-white { background-color: white }
+
 .font-sm { font-size: 0.9em !important }
+.font-bold { font-weight:bold }
+.font-normal { font-size:1em !important }
+.font-bigger { font-size:1.15em !important }
 
 .fa-2x { vertical-align: middle; }
+
+.category.active, .category.active > a:hover, .category.active > a { background-color:#3c8dbc; color:white !important; }
+
+.well_white { background-color: #fefefe !important; }
+.well_thin { padding: 5px 10px !important; }
+.dv-thumb img, .carousel-inner .item img { margin: 0 auto !important }
+.img-up { position:relative; top:-1px }
+.btn-center { left: 50%; margin: -14px 0 0 -38px; position: absolute; top: 35% }

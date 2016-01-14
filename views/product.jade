@@ -1,6 +1,22 @@
 extends layout
 
 block content
+	input#msg-items(type="hidden", value="#{__('item(s)')}")
+	input#msg-warranty(type="hidden", value="#{__('warranty')}")
+	input#msg-year(type="hidden", value="#{__('year')}")
+	input#msg-month(type="hidden", value="#{__('month')}")
+	input#msg-day(type="hidden", value="#{__('day')}")
+	input#msg-itemOnCart(type="hidden", value="#{__('itemOnCart')}")
+	input#msg-onOrder(type="hidden", value="#{__('onOrder')}")
+	input#msg-orderNow(type="hidden", value="#{__('orderNow')}")
+	input#msg-orMoreItems(type="hidden", value="#{__('or more items')}")
+	input#msg-ofTheSameCategory(type="hidden", value="#{__('of the same category')}")
+	input#msg-ofTheDiffernceCategory(type="hidden", value="#{__('of the differnce category')}")
+	input#msg-retailPrice(type="hidden", value="#{__('retailPrice')}")
+	input#msg-wholesalePrice(type="hidden", value="#{__('wholesalePrice')}")
+	input#msg-price(type="hidden", value="#{__('price')}")
+	input#msg-remain(type="hidden", value="#{__('remain')}")
+	input#msg-outOfStock(type="hidden", value="#{__('out of stock')}")
 
 	#dv-loading.alert.alert-info.alert-dismissible.text-center
 		i.fa.fa-cog.fa-spin.fa-2x
@@ -8,7 +24,7 @@ block content
 
 	.row
 		.col-md-3
-			#dv-category.box.box-primary.wait
+			#dv-category.box.box-primary.wait.hidden
 				.box-header
 					h3.box-title #{__('productCategory')}
 				.line
@@ -16,7 +32,7 @@ block content
 					ul#ul-category.nav.nav-pills.nav-stacked
 					
 		.col-md-9
-			#dv-cart.box.box-solid.transition-bg.wait
+			#dv-cart.box.box-solid.transition-bg.wait.hidden
 				.box-body
 					.pull-left.margin-top-5
 						i.fa.fa-shopping-cart.text-light-blue  
@@ -38,8 +54,7 @@ block content
 						a.btn.btn-warning.btn-sm(href="/cart", role="button") #{__('confirm order')}
 					.clearfix
 
-
-			.page-tool.wait
+			.page-tool.wait.hidden
 				.pull-left
 					h2#dv-header.page-header-left.margin-top-0 Category
 
@@ -62,12 +77,12 @@ block content
 						i.fa.fa-lg.fa-shopping-cart
 				.clearfix
 
-			ul#tab.nav.nav-tabs.tab-brand.wait(role="tablist")
+			ul#tab.nav.nav-tabs.tab-brand.wait.hidden(role="tablist")
 				li.brand-.active.font-bold(data-id="")
 					a(href="javascript:void(0)") #{__('all')}
 
-			.table-responsive
-				table#tb-result.table.table-condensed.table-hover.wait
+			.table-responsive.hidden
+				table#tb-result.table.table-condensed.table-hover.wait.hidden
 					thead
 						tr.bg-white.font-sm(style="border-left: 1px solid #ddd; border-right: 1px solid #ddd")
 							th.td-thumb(width="100", nowrap="nowrap")
@@ -84,7 +99,7 @@ block content
 							th.price5.text-right.hidden(width="60", nowrap="nowrap") #{__('price')} 5
 					tbody
 
-			#dv-box.padding-top-15
+			#dv-box.padding-top-15.hidden
 
 	#dv-add_cart.modal.fade(tabindex='-1', role='dialog')
 		.modal-dialog.modal-sm

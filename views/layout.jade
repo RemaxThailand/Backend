@@ -14,6 +14,8 @@ html(lang='en')
 
 	body.skin-blue.sidebar-mini
 
+		input#apiUrl(type='hidden', value='#{config.apiUrl}')
+
 		.wrapper
 			header.main-header
 				a.logo(href='index2.html')
@@ -288,14 +290,15 @@ html(lang='en')
 			.control-sidebar-bg
 
 		script(src='//src.remaxthailand.co.th/libs/jquery/2.1.4/jquery.min.js')
-		script(src='//src.remaxthailand.co.th/libs/js-cookie/2.0.3/js.cookie.min.js')
+		script(src='//src.remaxthailand.co.th/libs/js-cookie/2.1.0/js.cookie.min.js')
 		script(src='//src.remaxthailand.co.th/libs/bootstrap/3.3.5/js/bootstrap.min.js')
 		script(src='//src.remaxthailand.co.th/libs/adminlte/latest/js/app.min.js')
+		script(src='//src.remaxthailand.co.th/libs/jquery-storage-api/1.7.2/jquery.storageapi.min.js')
 		script(src='/javascripts/common.js')
 		if data.screen == 'admin-member'
 			script(src='//src.remaxthailand.co.th/libs/adminlte/latest/plugins/datatables/jquery.dataTables.min.js')
 			script(src='//src.remaxthailand.co.th/libs/adminlte/latest/plugins/datatables/dataTables.bootstrap.min.js')
 		if data.screen == 'product'
-			script(src='//src.remaxthailand.co.th/libs/ScrollToFixed/1.0.7/jquery-scrolltofixed-min.js')
+			script(src='//src.remaxthailand.co.th/libs/scrolltofixed/1.0.7/jquery-scrolltofixed-min.js')
 		if data.hasScript
 			script(src='/javascripts/#{data.screen}.js')
