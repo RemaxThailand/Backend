@@ -9,15 +9,8 @@ $(function() {
 	// Fix เมนูรถเข็นให้อยู่ด้านบนเสมอ
 	$('#dv-cart').scrollToFixed({ marginTop: 10 });
 
-	// โหลดค่า Config
-	config = storage.get('ConfigScreenProduct');
-	if ( config == undefined ) {
-		config = {};
-		config.category = $('#ul-category .category:eq(0)').data('id');
-		config.view = 'table';
-		config.showImage = true;
-		storage.set('ConfigScreenProduct', config);
-	}
+	// โหลดค่า Config	
+	loadConfig();
 
 	// โหลดข้อมูล Category
 	loadCategory();
@@ -58,6 +51,18 @@ $(function() {
 	});
 
 });
+
+function loadConfig() {
+	config = storage.get('ConfigScreenProduct');
+	if ( config == undefined ) {
+		config = {};
+		config.category = $('#ul-category .category:eq(0)').data('id');
+		config.view = 'table';
+		config.showImage = true;
+		storage.set('ConfigScreenProduct', config);
+	}
+	// Set ค่าปุ่มที่ User เคยกด
+}
 
 function loadCategory() {
 	$.post($('#apiUrl').val()+'/product/category_and_brand', { token: Cookies.get('token')	}, function(data) {
