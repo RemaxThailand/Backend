@@ -300,5 +300,8 @@
 	"You have logged in successfully": "กำลังเข้าสู่ระบบ กรุณารอสักครู่ค่ะ",
 	"Verify": "ตรวจสอบ",
 	"Working Status": "Working Status",
-	"id": "รหัส"
+	"id": "รหัส",
+	"screen-report-dealer-order-header": "screen-report-dealer-order-header",
+	"screen-report-dealer-register-header": "screen-report-dealer-register-header",
+	"screen-report-shop-register-header": "screen-report-shop-register-header"
 }
