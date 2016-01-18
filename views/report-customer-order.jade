@@ -1,0 +1,57 @@
+extends layout
+
+block content
+	input#msg-total(type="hidden", value="#{__('total')}")
+
+	.box.box-default
+		.box-header.with-border
+			h3.box-title Expandable
+			.box-tools.pull-right
+				button.btn.btn-box-tool(type='button', data-widget='collapse')
+					i.fa.fa-minus
+		.box-body
+			.row
+				.col-sm-9
+					#dv-province-chart.box.box-widget.margin-bottom-0
+						.box-body.no-padding
+							#chart_div(style="width: 100%; height: 500px;")							
+						.overlay
+							i.fa.fa-gear.fa-spin
+				.col-md-3
+					#dv-top-sell.box.box-widget.margin-bottom-0
+						.box-header
+							.form-group.margin-bottom-0
+								select.select-month.form-control
+									option(data-month="0", selected) #{__('current month')}
+									option(data-month="1") #{__('last 1 month')}
+									option(data-month="2") #{__('last 2 months')}
+									option(data-month="3") #{__('last 3 months')}
+									option(data-month="4") #{__('last 4 months')}
+									option(data-month="5") #{__('last 5 months')}
+									option(data-month="6") #{__('last 6 months')}
+									option(data-month="7") #{__('last 7 months')}
+									option(data-month="8") #{__('last 8 months')}
+									option(data-month="9") #{__('last 9 months')}
+									option(data-month="10") #{__('last 10 months')}
+									option(data-month="11") #{__('last 11 months')}
+									option(data-month="12") #{__('last 12 months')}
+						.line
+						.box-body.no-padding
+							.table-responsive
+								table.table.table-striped.margin-bottom-0.font-sm
+									thead
+										tr
+											th.text-center(style='width: 10px') #
+											th #{__('province')}
+											th.text-right #{__('grand total')}
+									tbody
+			.row
+				.col-sm-12
+					.table-responsive
+						table.table.table-striped.margin-bottom-0.font-sm
+							thead
+								tr
+									th.text-center(style='width: 10px') #
+									th #{__('province')}
+									th.text-right #{__('grand total')}
+							tbody

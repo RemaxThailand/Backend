@@ -205,6 +205,15 @@
 	"last 1 month": "Last 1 Month",
 	"last 2 months": "Last 2 Months",
 	"last 3 months": "Last 3 Months",
+	"last 4 months": "Last 4 Months",
+	"last 5 months": "Last 5 Months",
+	"last 6 months": "Last 6 Months",
+	"last 7 months": "Last 7 Months",
+	"last 8 months": "Last 8 Months",
+	"last 9 months": "Last 9 Months",
+	"last 10 months": "Last 10 Months",
+	"last 11 months": "Last 11 Months",
+	"last 12 months": "Last 12 Months",
 	"unpaid": "Unpaid",
 	"paid": "Paid",
 	"unpack": "Unpack",
@@ -300,5 +309,9 @@
 	"Working Status": "Working Status",
 	"Verify": "Verify",
 	"Profile": "Profile",
-	"id": "ID"
+	"id": "ID",
+	"screen-report-customer-order-header": "Customer Order",
+	"screen-report-customer-order-detail": "",
+	"screen-report-dealer-register-header": "Dealer Register",
+	"screen-report-shop-register-header": "Shop Register"
 }

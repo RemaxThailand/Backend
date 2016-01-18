@@ -52,6 +52,23 @@ $(function() {
 
 	});
 	
+	/* writting on 15/01/2559 19:50
+	$(document).on('click', '#ul-category li.brand', function(){ //ถ้าเลือก Brand
+		var $obj = $(this);
+		var brand = $obj.data('id');
+		$('#ul-category li.brand a').removeClass('text-red font-bold');
+		$(this).find('a').addClass('text-red font-bold');
+		
+		$('#tab li.active').removeClass('active font-bold');
+		$('#tab li.brand-'+$(this).data('id')).addClass('active font-bold');
+
+		$('#dv-header small:eq(0)').html( '<i class="fa fa-angle-right"></i> ' + $(this).find('span').text() );
+
+		config.brand = brand;
+		storage.set('ConfigScreenProduct', config);
+		renderProduct();
+	});*/
+	
 	$(document).on('click', '#btn-list-view', function(){ //แสดงข้อมูลแบบตาราง
 		if ($(this).hasClass('active')) {
 			$(this).removeClass('active btn-primary').addClass('btn-default');
@@ -124,6 +141,7 @@ function loadConfig() {
 
 		config = {};
 		config.category = $('#ul-category .category:eq(0)').data('id');
+		config.brand = "";
 		config.view = 'box';
 		config.showImage = true;
 		storage.set('ConfigScreenProduct', config);
@@ -346,16 +364,20 @@ function renderProduct() {
 
 
 	}
-
+	var count;
 	if ( config.view == 'box' ) {
 		$('.table-responsive').hide();
 		$('#dv-box').html(html).show();
-		
+		count = $('.dv-cat-'+config.category+'.dv-brand');		
+		$('.countItem').html( count.length );		
 	}else{
 		$('#dv-box').hide();
 		$('#tb-result tbody').html(html);
 		$('.table-responsive').show();
+		count = $('.tr-cat-'+config.category+'.tr-brand');
+		$('.countItem').html( count.length );
 	}
+	$('.countItem').html( count.length );
 	
 	if (config.showImage){
 		$('.td-thumb, .dv-thumb').show();
@@ -363,7 +385,6 @@ function renderProduct() {
 		$('.td-thumb, .dv-thumb').hide();
 	}
 	
-	$('.countItem').html( $obj.length );
 	$('.hidden').removeClass('hidden').hide();
 	$('.wait').show();
 	$('#dv-loading').hide();

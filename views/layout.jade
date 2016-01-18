@@ -295,10 +295,17 @@ html(lang='en')
 		script(src='//src.remaxthailand.co.th/libs/adminlte/latest/js/app.min.js')
 		script(src='//src.remaxthailand.co.th/libs/jquery-storage-api/1.7.2/jquery.storageapi.min.js')
 		script(src='/javascripts/common.js')
+
 		if data.screen == 'admin-member'
 			script(src='//src.remaxthailand.co.th/libs/adminlte/latest/plugins/datatables/jquery.dataTables.min.js')
 			script(src='//src.remaxthailand.co.th/libs/adminlte/latest/plugins/datatables/dataTables.bootstrap.min.js')
+
 		if data.screen == 'product'
 			script(src='//src.remaxthailand.co.th/libs/scrolltofixed/1.0.7/jquery-scrolltofixed-min.js')
+
+		if data.screen == 'report-customer-order'
+			script(src='//www.gstatic.com/charts/loader.js')
+			script(src='//www.google.com/jsapi')
+
 		if data.hasScript
 			script(src='/javascripts/#{data.screen}.js')

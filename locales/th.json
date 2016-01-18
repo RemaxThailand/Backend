@@ -206,6 +206,15 @@
 	"last 1 month": "ย้อนหลัง 1 เดือน",
 	"last 2 months": "ย้อนหลัง 2 เดือน",
 	"last 3 months": "ย้อนหลัง 3 เดือน",
+	"last 4 months": "ย้อนหลัง 4 เดือน",
+	"last 5 months": "ย้อนหลัง 5 เดือน",
+	"last 6 months": "ย้อนหลัง 6 เดือน",
+	"last 7 months": "ย้อนหลัง 7 เดือน",
+	"last 8 months": "ย้อนหลัง 8 เดือน",
+	"last 9 months": "ย้อนหลัง 9 เดือน",
+	"last 10 months": "ย้อนหลัง 10 เดือน",
+	"last 11 months": "ย้อนหลัง 11 เดือน",
+	"last 12 months": "ย้อนหลัง 12 เดือน",
 	"unpaid": "ยังไม่ชำระเงิน",
 	"paid": "ชำระเงินแล้ว",
 	"unpack": "ยังไม่เตรียมสินค้า",
@@ -301,7 +310,8 @@
 	"Verify": "ตรวจสอบ",
 	"Working Status": "Working Status",
 	"id": "รหัส",
-	"screen-report-dealer-order-header": "screen-report-dealer-order-header",
-	"screen-report-dealer-register-header": "screen-report-dealer-register-header",
-	"screen-report-shop-register-header": "screen-report-shop-register-header"
+	"screen-report-customer-order-header": "ยอดสั่งซื้อของลูกค้า",
+	"screen-report-customer-order-detail": " ",
+	"screen-report-dealer-register-header": "ผู้สมัครตัวแทนจำหน่าย",
+	"screen-report-shop-register-header": "ผู้สมัครเปิดช็อป"
 }
