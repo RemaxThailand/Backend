@@ -14,27 +14,27 @@ block content
 				.col-sm-9
 					#dv-province-chart.box.box-widget.margin-bottom-0
 						.box-body.no-padding
-							#chart_div(style="width: 100%; height: 500px;")							
+							#chart_div(style="width: 100%; height: 500px;")
 						.overlay
 							i.fa.fa-gear.fa-spin
 				.col-md-3
-					#dv-top-sell.box.box-widget.margin-bottom-0
+					#dv-top-sell.box.box-widget.margin-bottom-0.hidden
 						.box-header
 							.form-group.margin-bottom-0
 								select.select-month.form-control
-									option(data-month="0", selected) #{__('current month')}
-									option(data-month="1") #{__('last 1 month')}
-									option(data-month="2") #{__('last 2 months')}
-									option(data-month="3") #{__('last 3 months')}
-									option(data-month="4") #{__('last 4 months')}
-									option(data-month="5") #{__('last 5 months')}
-									option(data-month="6") #{__('last 6 months')}
-									option(data-month="7") #{__('last 7 months')}
-									option(data-month="8") #{__('last 8 months')}
-									option(data-month="9") #{__('last 9 months')}
-									option(data-month="10") #{__('last 10 months')}
-									option(data-month="11") #{__('last 11 months')}
-									option(data-month="12") #{__('last 12 months')}
+									option(data-month="0", value=0, selected) #{__('current month')}
+									option(data-month="1", value=1) #{__('last 1 month')}
+									option(data-month="2", value=2) #{__('last 2 months')}
+									option(data-month="3", value=3) #{__('last 3 months')}
+									option(data-month="4", value=4) #{__('last 4 months')}
+									option(data-month="5", value=5) #{__('last 5 months')}
+									option(data-month="6", value=6) #{__('last 6 months')}
+									option(data-month="7", value=7) #{__('last 7 months')}
+									option(data-month="8", value=8) #{__('last 8 months')}
+									option(data-month="9", value=9) #{__('last 9 months')}
+									option(data-month="10", value=10) #{__('last 10 months')}
+									option(data-month="11", value=11) #{__('last 11 months')}
+									option(data-month="12", value=12) #{__('last 12 months')}
 						.line
 						.box-body.no-padding
 							.table-responsive
@@ -45,13 +45,24 @@ block content
 											th #{__('province')}
 											th.text-right #{__('grand total')}
 									tbody
-			.row
+						.overlay
+							i.fa.fa-gear.fa-spin
+
+			#dv-customer_history.row.hidden
 				.col-sm-12
-					.table-responsive
-						table.table.table-striped.margin-bottom-0.font-sm
-							thead
-								tr
-									th.text-center(style='width: 10px') #
-									th #{__('province')}
-									th.text-right #{__('grand total')}
-							tbody
+					.box.margin-bottom-0
+						.box-body.padding-0
+							.table-responsive
+								table#tb-customer_history.table.table-striped.margin-bottom-0.font-sm
+									thead
+										tr
+											th.text-center(style='width: 10px') #
+											th #{__('id')}
+											th #{__('name')}
+											th #{__('shop name')}
+											th #{__('Mobile Phone Number')}
+											th #{__('district')}
+											th.text-center #{__('price')}
+											th.th-bill.text-center #{__('bill')}
+											th.th-total.text-right #{__('grand total')}
+									tbody

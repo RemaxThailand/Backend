@@ -311,7 +311,7 @@
 	"Profile": "Profile",
 	"id": "ID",
 	"screen-report-customer-order-header": "Customer Order",
-	"screen-report-customer-order-detail": "",
+	"screen-report-customer-order-detail": "screen-report-customer-order-detail",
 	"screen-report-dealer-register-header": "Dealer Register",
 	"screen-report-shop-register-header": "Shop Register"
 }
