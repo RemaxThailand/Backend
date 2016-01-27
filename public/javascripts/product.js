@@ -2,6 +2,7 @@ var config;
 var categoryData;
 var productData;
 var renderCategoryDone = false;
+var productCode = '';
 
 $(function() {
 
@@ -15,7 +16,8 @@ $(function() {
 		
 	// โหลดข้อมูล Category
 	loadCategory();
-	
+	//โหลดข้อมูล Cart แบบสรุป
+	loadCartSummary()
 	
 	$(document).on('click', '#ul-category li.category', function() { // ถ้าเลือก Category
 		var $obj = $(this);
@@ -150,8 +152,18 @@ $(function() {
 
 	});
 	
+	//ค้นหาสินค้า
 	$(document).on('keyup', '#txt-search', function(){
 		searchProduct();
+	});
+	
+	//ให้ค่า product id ใน productCode
+	$(document).on('click', '.btn-add_cart, .btn-add_cart_box', function(){
+		productCode = $(this).parents('.product-row').data('id');
+	});
+
+	$(document).on('click', '.img-product', function(){
+		productCode = $(this).data('id');
 	});
 	
 	//แสดงปุ่มสั่งซื้อ
@@ -183,11 +195,6 @@ $(function() {
 		for(i=0;i<dimg.length;i++)
 			dataImage += (dimg[i].toLowerCase().substr(0,1) != 'd') ? dimg[i]+',' : '';
 		
-		/* console.log(dataImage.substr(0,dataImage.length-1)) 
-		console.log($obj.find('.sku').text())
-		console.log($obj.find('.name').text()) 
-		console.log($(this).attr('data-id')) */
-		
 		// showProductImage(Producname, SKU, ID, Image) ส่งไปเพื่อเปิด carousel
 		showProductImage($obj.find('.name').text(),$obj.find('.sku').text(),$(this).attr('data-id'),dataImage.substr(0,dataImage.length-1));
 	}); 
@@ -196,19 +203,17 @@ $(function() {
 	$(document).on('click', '.btn-save', function(){
 		var qty = 0;
 		try {
-			qty = parseInt( $(this).parents('.input-group').find('.txt-qty').val() )
-			console.log(qty)
+			qty = parseInt( $(this).parents('.input-group').find('.txt-qty').val() );
 		}
 		catch(err) {
 		}
 		
-		/* if (qty > 0) {
-			$.post($('#apiUrl').val()+'/order/cart/update', {
+		if (qty > 0) {
+			$.post($('#apiUrl').val()+'/cart/update', {
 				token: Cookies.get('token'),
-				memberKey: $('#authKey').val(),
 				product: productCode,
-				qty: qty,
-			}, function(data){
+				quantity: qty,
+			}, function(data){ 
 					if (data.success) {						
 						if (data.result[0].items > 0){
 							$('#items').html( numberWithCommas(data.result[0].items) );
@@ -231,7 +236,7 @@ $(function() {
 					}, 1000);
 
 			}, 'json');
-		} */
+		} 
 		$('#dv-add_cart').modal('hide');
 		$('#dv-view_image').modal('hide');
 	});
@@ -726,4 +731,20 @@ function showProductImage(pName, sku, pId, imageData){
 
 
 	$('.carousel').carousel();
+}
+
+function loadCartSummary(){
+	$.post($('#apiUrl').val()+'/cart/summary', {
+		token: Cookies.get('token')
+	}, function(data){
+			if (data.success) {
+				if (data.result[0].items > 0){
+					$('#items').html( numberWithCommas(data.result[0].items) );
+					$('#pieces').html( numberWithCommas(data.result[0].qty) );
+					$('#totalPrice').html( numberWithCommas(data.result[0].price) );
+					$('.sp-no_item').hide();
+					$('.sp-has_item').show();
+				}
+			}
+	}, 'json').fail( function(xhr, textStatus, errorThrown) { console.log(xhr.statusText); });
 }
