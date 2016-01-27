@@ -9,7 +9,7 @@ $(function() {
 	$('#txt-zipcode').ForceNumericOnly();
 
 	if (device == 'desktop') {
-		$('#tb-sum_price').scrollToFixed({ marginTop: 10 });
+		//$('#tb-sum_price').scrollToFixed({ marginTop: 10 });
 	}
 
 	$(document).on('shown.bs.popover', '.td-image', function(){
@@ -135,14 +135,13 @@ $(function() {
 });
 
 function loadCartDetail(){
-	$.post($('#apiUrl').val()+'/order/cart/detail', {
-		authKey: $('#authKey').val(),
+	$.post($('#apiUrl').val()+'/cart/info', {
+		token: Cookies.get('token')
 	}, function(data){
 
 			loadCartSummary();
 
 			if (data.success) {
-				if (data.correct) {
 					var html = '';
 					for( i=0; i<data.result.length; i++ ) {
 						var result = data.result[i];
@@ -172,30 +171,27 @@ function loadCartDetail(){
 					}
 					$('#dv-loading').hide();
 
-				}
 
 			}
 	}, 'json').fail( function(xhr, textStatus, errorThrown) { console.log(xhr.statusText); });
 }
 
 function loadAddress(){
-	$.post($('#apiUrl').val()+'/member/address/data', {
-		authKey: $('#authKey').val(),
+	$.post($('#apiUrl').val()+'/member/address/info', {
+		token: Cookies.get('token'),
 	}, function(data){
 			if (data.success) {
-				if (data.correct) {
-					$('#txt-firstname').val( data.result[0].firstname );
-					$('#txt-lastname').val( data.result[0].lastname );
-					$('#txt-nickname').val( data.result[0].contactName );
-					$('#txt-tel').val( data.result[0].mobile );
-					$('#txt-shop').val( data.result[0].shopName );
-					$('#txt-address').val( data.result[0].address );
-					$('#txt-address2').val( data.result[0].address2 );
-					$('#txt-sub_district').val( data.result[0].subDistrict );
-					$('#district').attr('data-selected', data.result[0].district).attr('data-zipcode', data.result[0].zipCode);
-					$('#province').val( data.result[0].province ).attr('data-selected', data.result[0].province);
-					$('#txt-zipcode').val( data.result[0].zipCode );
-				}
+				$('#txt-firstname').val( data.result[0].firstname );
+				$('#txt-lastname').val( data.result[0].lastname );
+				$('#txt-nickname').val( data.result[0].contactName );
+				$('#txt-tel').val( data.result[0].mobile );
+				$('#txt-shop').val( data.result[0].shopName );
+				$('#txt-address').val( data.result[0].address );
+				$('#txt-address2').val( data.result[0].address2 );
+				$('#txt-sub_district').val( data.result[0].subDistrict );
+				$('#district').attr('data-selected', data.result[0].district).attr('data-zipcode', data.result[0].zipCode);
+				$('#province').val( data.result[0].province ).attr('data-selected', data.result[0].province);
+				$('#txt-zipcode').val( data.result[0].zipCode );
 			}
 			else {
 			}
@@ -206,26 +202,24 @@ function loadAddress(){
 
 
 function loadCartSummary(){
-	$.post($('#apiUrl').val()+'/order/cart/summary', {
+	$.post($('#apiUrl').val()+'/cart/summary', {
 		authKey: $('#authKey').val(),
 	}, function(data){
 			if (data.success) {
-				if (data.correct) {
-					if (data.result[0].items > 0){
-						$('.price-product').html( numberWithCommas(data.result[0].price) );
-						$('.price-shipping').html( (data.result[0].shipping > 0) ? numberWithCommas(data.result[0].shipping) : '-' );
-						var total = data.result[0].price+data.result[0].shipping;
-						if ( data.result[0].sellDiscount > 0) {
-							$('.txt-discount_percent').html( '(' + numberWithCommas(data.result[0].sellDiscount)+'%)' );
-							var  discount = Math.floor(data.result[0].price*data.result[0].sellDiscount/100);
-							$('.price-discount').html( '-' + numberWithCommas( discount ) );
-							total -= discount;
-						}
-						else {
-							$('.price-discount').html( '-' );
-						}
-						$('.price-total').html( numberWithCommas(total) ).attr('data-total', total);
+				if (data.result[0].items > 0){
+					$('.price-product').html( numberWithCommas(data.result[0].price) );
+					$('.price-shipping').html( (data.result[0].shipping > 0) ? numberWithCommas(data.result[0].shipping) : '-' );
+					var total = data.result[0].price+data.result[0].shipping;
+					if ( data.result[0].sellDiscount > 0) {
+						$('.txt-discount_percent').html( '(' + numberWithCommas(data.result[0].sellDiscount)+'%)' );
+						var  discount = Math.floor(data.result[0].price*data.result[0].sellDiscount/100);
+						$('.price-discount').html( '-' + numberWithCommas( discount ) );
+						total -= discount;
 					}
+					else {
+						$('.price-discount').html( '-' );
+					}
+					$('.price-total').html( numberWithCommas(total) ).attr('data-total', total);
 				}
 			}
 	}, 'json').fail( function(xhr, textStatus, errorThrown) { console.log(xhr.statusText); });
@@ -233,30 +227,29 @@ function loadCartSummary(){
 
 
 function loadProvince(){
-	$.post($('#apiUrl').val()+'/master/thailand/province', {
-		language: $('#language').val(),
+	$.post($('#apiUrl').val()+'/province/list', {
+		token: Cookies.get('token'),
+		language: Cookies.get('language')
 	}, function(data){
 			if (data.success) {
-				if (data.correct) {
-					var html = '';
-					for( i=0; i<data.result.length; i++ ) {
-						var result = data.result[i];
-						html += '<option value="'+ result.id +'"'+ 
-							((result.name == $('#province').attr('data-selected') || ($('#province').attr('data-selected') == '' && result.id == '1')) ? ' selected' : '')
-							+'>'+ result.name +'</option>';
-					}
-					$('#province').html( html );
-					loadAddress();
+				var html = '';
+				for( i=0; i<data.result.length; i++ ) {
+					var result = data.result[i];
+					html += '<option value="'+ result.id +'"'+ 
+						((result.name == $('#province').attr('data-selected') || ($('#province').attr('data-selected') == '' && result.id == '0')) ? ' selected' : '')
+						+'>'+ result.name +'</option>';
 				}
+				$('#province').html( html );
+				loadAddress();
 			}
 	}, 'json').fail( function(xhr, textStatus, errorThrown) { console.log(xhr.statusText); });
 }
 
-
 function loadDistrict(){
-	$.post($('#apiUrl').val()+'/master/thailand/district', {
-		language: $('#language').val(),
-		provinceCode: $('#province :selected').val(),
+	$.post($('#apiUrl').val()+'/province/district', {
+		token: Cookies.get('token'),
+		province: $('#province :selected').val(),
+		language: Cookies.get('language')
 	}, function(data){
 			if (data.success) {
 				if (data.correct) {
@@ -273,7 +266,6 @@ function loadDistrict(){
 			}
 	}, 'json').fail( function(xhr, textStatus, errorThrown) { console.log(xhr.statusText); });
 }
-
 
 function loadZipCode(){
 	$('#txt-zipcode').val( $('#district :selected').attr('data-zipcode') );

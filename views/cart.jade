@@ -1,3 +1,232 @@
 extends layout
 
 block content
+	input#msg-khet(type="hidden", value="#{__('khet')}")
+	input#msg-kwang(type="hidden", value="#{__('kwang')}")
+	input#msg-tambon(type="hidden", value="#{__('tambon')}")
+	input#msg-amphoe(type="hidden", value="#{__('amphoe')}")
+	input#msg-province(type="hidden", value="#{__('province')}")
+	input#msg-baht(type="hidden", value="#{__('baht')}")
+
+	#dv-loading.callout.callout-info.text-center
+		img.loading.top-2(src="/images/icons/loading.gif", alt="loading") 
+		span.loading.text-muted &nbsp;#{__('loadingData')}
+
+	#dv-no_data.callout.callout-danger.text-center.hidden
+		b.text-red
+			i.fa.fa-warning
+			|  #{__('cart is empty')}
+
+	section.content.invoice.width-100p.wait.hidden
+		.row
+			.col-xs-12.col-sm-12.col-md-9.col-lg-9
+				.table-responsive
+					span.lead #{__('itemOnCart')} 
+					table#tb-result.table.table-striped
+						thead
+							tr.text-muted
+								th.text-right(width="35") #{__('no')}
+								th #{__('productName')}
+								th.text-right(nowrap="nowrap", width="65") #{__('price')}
+								th.text-right(nowrap="nowrap", width="65") #{__('quantity')}
+								th.text-right(nowrap="nowrap", width="80") #{__('total price')}
+						tbody
+
+					.line
+					p
+
+				#dv-address
+
+					p.lead #{__('shipping address')}
+
+					#address_sum.padding-left-15.hidden
+
+						b #{__('khun')} 
+							span.text-light-blue.font-bigger.txt-firstname #{data.memberInfo.firstname}
+							|  &nbsp;
+							span.text-light-blue.font-bigger.txt-lastname #{data.memberInfo.lastname}
+						|  &nbsp;
+						span.txt-nickname  #{data.memberInfo.nickname}
+						p
+						.padding-left-15 
+							b #{__('mobilePhoneNumber')} : 
+							span.txt-tel #{data.memberInfo.mobile}
+						.padding-left-15
+							span
+								span.font-bold #{__('address')} : 
+								span.txt-address
+						.padding-left-15.txt-address2
+						.padding-left-15
+							span.txt-sub_district
+							|  &nbsp;
+							span.txt-district
+							|  &nbsp;
+							span.txt-province
+							|  &nbsp;
+							span.txt-zipcode
+
+						.padding-left-15
+							span#btn-edit_address.btn.btn-warning.btn-sm.margin-top-10
+								i.fa.fa-edit
+								|  #{__('edit')}
+
+					form#address_edit.form-horizontal.hidden(role="form")
+						.form-group
+							label.col-sm-3.control-label(for="txt-name") #{__('firstname')}
+							.col-sm-6
+								input#txt-firstname.form-control.txt-input.txt-require(type="text", placeholder="#{__('firstname')}", value="#{data.memberInfo.firstname}")
+						.form-group
+							label.col-sm-3.control-label(for="txt-name") #{__('lastname')}
+							.col-sm-6
+								input#txt-lastname.form-control.txt-input.txt-require(type="text", placeholder="#{__('lastname')}", value="#{data.memberInfo.lastname}")
+						.form-group
+							label.col-sm-3.control-label(for="txt-name") #{__('contact name')}
+							.col-sm-6
+								input#txt-nickname.form-control.txt-input(type="text", placeholder="#{__('contact name')}", value="#{data.memberInfo.nickname}")
+						.form-group
+							label.col-sm-3.control-label(for="txt-name") #{__('mobilePhoneNumber')}
+							.col-sm-6
+								input#txt-tel.form-control.txt-input.txt-require(type="text", placeholder="#{__('mobilePhoneNumber')}", value="#{data.memberInfo.mobile}")
+						.form-group
+							label.col-sm-3.control-label(for="txt-name") #{__('shop name')}
+							.col-sm-6
+								input#txt-shop.form-control.txt-input(type="text", placeholder="#{__('shop name')}")
+						.form-group
+							label.col-sm-3.control-label(for="txt-name") #{__('address')}
+							.col-sm-6
+								input#txt-address.form-control.txt-input.txt-require(type="text", placeholder="#{__('address')}")
+						.form-group
+							label.col-sm-3.control-label(for="txt-name") #{__('address (cont.)')}
+							.col-sm-6
+								input#txt-address2.form-control.txt-input(type="text", placeholder="#{__('address (cont.)')}")
+						.form-group
+							label.col-sm-3.control-label(for="txt-name") #{__('province')}
+							.col-sm-6
+								select#province.form-control(data-selected="")
+						.form-group
+							label.col-sm-3.control-label(for="txt-name") #{__('district')}
+							.col-sm-6
+								select#district.form-control(data-selected="", data-zipcode="")
+						.form-group
+							label.col-sm-3.control-label(for="txt-name") #{__('sub district')}
+							.col-sm-6
+								input#txt-sub_district.form-control.txt-input.txt-require(type="text", placeholder="#{__('sub district')}")
+						.form-group
+							label.col-sm-3.control-label(for="txt-name") #{__('zipcode')}
+							.col-sm-6
+								input#txt-zipcode.form-control.txt-input.txt-require(type="text", placeholder="#{__('zipcode')}")
+						.form-group
+							label.col-sm-3.control-label(for="txt-name")
+							.col-sm-6					
+								span#btn-save_address.btn.btn-warning
+									i.fa.fa-check-circle
+									|  #{__('ok')}
+
+
+				#dv-loading-confirm.callout.callout-info.text-center.hidden
+					img.loading.top-2(src="/images/icons/loading.gif", alt="loading") 
+					span.loading.text-muted &nbsp;#{__('loadingData')}
+
+				.dv-success.text-center.hidden
+					h4.text-info #{__('order has already executed')}
+					div
+						|  #{__('your order number')}
+						h4#h-orderNo.text-info 
+					br
+					br
+					div
+						|  #{__('please pay within')} 
+						b.text-primary
+							span#expireHours
+							|    #{__('hour')}  
+						|  #{__('by transfer money to')}
+						img.img-responsive.margin-top-10.margin-bottom-5(img src="https://src.24fin.com/images/png/bank.png")
+
+
+			.col-xs-12.col-sm-12.col-md-3.col-lg-3
+				span.lead #{__('total price')}
+				#tb-sum_price.table-responsive
+					table.table.bg-white
+						thead
+							tr.text-muted
+								th.text-right(width="50%", nowrap="nowrap") #{__('product price')}
+								th.text-right.price-product.td-price.text-green(nowrap="nowrap")
+									i.fa.fa-spin.fa-refresh
+								th(width="1%", nowrap="nowrap") #{__('baht')}
+						tbody
+							tr.text-muted
+								th.text-right(nowrap="nowrap") #{__('discount')} 
+									span.txt-discount_percent
+								th.text-right.txt-discount.text-red.price-discount.td-price(nowrap="nowrap")
+									i.fa.fa-spin.fa-refresh
+								td(nowrap="nowrap") #{__('baht')}
+							tr.text-muted
+								th.text-right(nowrap="nowrap") #{__('shipping')} 
+								th.text-right.price-shipping.td-price.text-yellow(nowrap="nowrap")
+									i.fa.fa-spin.fa-refresh
+								td(nowrap="nowrap") #{__('baht')}
+							tr#tr-coupon.text-muted.hidden
+								th.text-right(nowrap="nowrap") คูปองส่วนลด 
+								th.text-right.price-coupon.td-price.text-red(nowrap="nowrap")
+									i.fa.fa-spin.fa-refresh
+								td.unit-coupon(nowrap="nowrap", data-unit="B") #{__('baht')}
+							tr.text-light-blue.info
+								th.text-right(nowrap="nowrap") #{__('grand total')}
+								th.text-right.price-total.td-price.font-bigger(nowrap="nowrap")
+									i.fa.fa-spin.fa-refresh
+								td(nowrap="nowrap") #{__('baht')}
+							tr
+								td.padding-left-0.padding-right-0(colspan="3")
+									#dv-coupon_success.callout.callout-info.margin-bottom-10.hidden
+										p.text-info คุณได้รับส่วนลด 
+											span.price-coupon
+											span.unit-coupon
+											br
+											จากคูปองรหัส 
+											b.b-coupon ABC!234 
+											ค่ะ
+											
+									#dv-coupon_fail.callout.callout-danger.margin-bottom-10.hidden
+										p.text-red ขออภัยค่ะ ไม่สามารถใช้คูปอง
+											br
+											รหัส 
+											b.b-coupon ABC!234 
+											ได้
+									.input-group
+										input#txt-coupon.form-control(type='text', placeholder="#{__('coupon code')}")
+										span.input-group-btn
+											button#btn-apply_coupon.btn.btn-primary(type='button', data-loading-text='Loading...', autocomplete='off')
+												i.fa.fa-tag
+												|   #{__('apply coupon')}
+							tr
+								td.padding-left-0.padding-right-0(colspan="3")
+									span#btn-confirm.btn.btn-warning.btn-block.hidden
+										i.fa.fa-check-circle
+										|  #{__('confirm order')}
+							tr.dv-success.hidden
+								td.padding-left-0.padding-right-0(colspan="3")
+									.text-left #{__('after transfer money, please send photo of payment to')}
+										ul
+											li Line ID 
+												b @RemaxThailand
+												br
+												img.img-responsive.margin-bottom-5(src="/images/line-remaxthailand.png", width="150")
+											li #{__('send mms to')} 081-828-8833
+											li #{__('on web at menu')} 
+												a(href="/payment") #{__('screen-payment-header')} 
+											li #{__('send email to')} 
+												a(href="mailto:sales@remaxthailand.co.th ") sales@remaxthailand.co.th
+							tr
+								td.padding-left-0.padding-right-0(colspan="3")
+									.box.box-danger
+										.box-body
+											center
+												span.text-red หากสั่งซื้อสินค้ามากกว่า 10 ชิ้น
+													br
+													กรุณา Add Line
+													br
+													เพื่อสอบถามสินค้าราคาพิเศษค่ะ
+												br
+												img.img-responsive.margin-top-5.margin-bottom-5(src="/images/line-remaxthailand.png", width="150")
+												| Line ID : 
+												b @RemaxThailand

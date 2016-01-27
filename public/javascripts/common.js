@@ -37,3 +37,29 @@ var sort_by = function(field, reverse, primer){
        return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
      } 
 }
+
+jQuery.fn.ForceNumericOnly = function() {
+	return this.each(function() {
+		$(this).keydown(function(e) {
+			if (/^[0-9]+$/.test($(this).val()) == false) {
+				var text = $(this).val();
+				$(this).val( text.substr(0, text.length-1) );
+			}
+			var key = e.charCode || e.keyCode || 0;
+			return (
+				(
+					key == 13 || // Enter
+					key == 8 || // Back Space
+					(key >= 48 && key <= 57 && e.shiftKey== false) || // 0-9
+					(key >= 96 && key <= 105) // 0-9 (Numpad)
+				) && ( $(this).val().length == 0 || (/^[0-9]+$/.test($(this).val())) )
+			);
+		}),
+		$(this).keyup(function(e) {
+			if (/^[0-9]+$/.test($(this).val()) == false) {
+				var text = $(this).val();
+				$(this).val( text.substr(0, text.length-1) );
+			}
+		});
+	});
+};
