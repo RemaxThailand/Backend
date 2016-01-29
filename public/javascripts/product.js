@@ -209,7 +209,7 @@ $(function() {
 		}
 		
 		if (qty > 0) {
-			$.post($('#apiUrl').val()+'/cart/update', {
+			$.post($('#apiUrl').val()+'/cart/add', {
 				token: Cookies.get('token'),
 				product: productCode,
 				quantity: qty,

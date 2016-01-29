@@ -9,11 +9,11 @@ block content
 	input#msg-baht(type="hidden", value="#{__('baht')}")
 
 	#dv-loading.callout.callout-info.text-center
-		img.loading.top-2(src="/images/icons/loading.gif", alt="loading") 
-		span.loading.text-muted &nbsp;#{__('loadingData')}
+		i.fa.fa-cog.fa-spin.fa-2x 
+		span.loading &nbsp;#{__('loadingData')}
 
 	#dv-no_data.callout.callout-danger.text-center.hidden
-		b.text-red
+		b
 			i.fa.fa-warning
 			|  #{__('cart is empty')}
 
@@ -30,6 +30,7 @@ block content
 								th.text-right(nowrap="nowrap", width="65") #{__('price')}
 								th.text-right(nowrap="nowrap", width="65") #{__('quantity')}
 								th.text-right(nowrap="nowrap", width="80") #{__('total price')}
+								th
 						tbody
 
 					.line
@@ -124,8 +125,8 @@ block content
 
 
 				#dv-loading-confirm.callout.callout-info.text-center.hidden
-					img.loading.top-2(src="/images/icons/loading.gif", alt="loading") 
-					span.loading.text-muted &nbsp;#{__('loadingData')}
+					i.fa.fa-cog.fa-spin.fa-2x 
+					span.loading &nbsp;#{__('loadingData')}
 
 				.dv-success.text-center.hidden
 					h4.text-info #{__('order has already executed')}
@@ -140,7 +141,7 @@ block content
 							span#expireHours
 							|    #{__('hour')}  
 						|  #{__('by transfer money to')}
-						img.img-responsive.margin-top-10.margin-bottom-5(img src="https://src.24fin.com/images/png/bank.png")
+						img.img-responsive.margin-top-10.margin-bottom-5(img src="https://img.powerdd.com/web/bank/remaxthailand.jpg")
 
 
 			.col-xs-12.col-sm-12.col-md-3.col-lg-3
@@ -210,7 +211,7 @@ block content
 											li Line ID 
 												b @RemaxThailand
 												br
-												img.img-responsive.margin-bottom-5(src="/images/line-remaxthailand.png", width="150")
+												img.img-responsive.margin-bottom-5(src="https://img.powerdd.com/web/contact/line-remaxthailand.png", width="150")
 											li #{__('send mms to')} 081-828-8833
 											li #{__('on web at menu')} 
 												a(href="/payment") #{__('screen-payment-header')} 
@@ -227,6 +228,6 @@ block content
 													br
 													เพื่อสอบถามสินค้าราคาพิเศษค่ะ
 												br
-												img.img-responsive.margin-top-5.margin-bottom-5(src="/images/line-remaxthailand.png", width="150")
+												img.img-responsive.margin-top-5.margin-bottom-5(src="https://img.powerdd.com/web/contact/line-remaxthailand.png", width="150")
 												| Line ID : 
 												b @RemaxThailand
