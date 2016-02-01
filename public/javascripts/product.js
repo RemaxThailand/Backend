@@ -10,7 +10,7 @@ $(function() {
 	$('body').addClass('sidebar-collapse');
 	// Fix เมนูรถเข็นให้อยู่ด้านบนเสมอ
 	$('#dv-cart').scrollToFixed({ marginTop: 10 });
-
+	$('.txt-qty').ForceNumericOnly();
 	// โหลดค่า Config	
 	//loadConfig(); // โหลด config ก่อน ไม่ได้ค่า  config.category เลยย้ายไปทำหลัง renderCategory แล้ว
 		
