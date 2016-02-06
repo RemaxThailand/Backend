@@ -1,3 +1,145 @@
 extends layout
 
 block content
+
+	.row
+		.col-md-5
+			.box.box-primary
+				.box-header
+					h3.box-title #{__('primaryProfile')}
+				.box-body
+					form.form-horizontal.fm-change_data
+						.form-group
+							label.col-sm-3.control-label(for='input') #{__('username')}
+							.col-sm-9
+								input#username.form-control(type='text', disabled, placeholder="#{__('username')}", value="#{data.memberInfo.username}", data-tab="Member")
+						.form-group
+							label.col-sm-3.control-label(for='input') #{__('firstname')}
+							.col-sm-9
+								input#firstname.form-control(type='text', placeholder="#{__('firstname')}", value="#{data.memberInfo.firstname}", data-tab="Member")
+						.form-group
+							label.col-sm-3.control-label(for='input') #{__('lastname')}
+							.col-sm-9
+								input#lastname.form-control(type='text', placeholder="#{__('lastname')}", value="#{data.memberInfo.lastname}", data-tab="Member")
+						.form-group
+							label.col-sm-3.control-label(for='input') #{__('nickname')}
+							.col-sm-9
+								input#nickname.form-control(type='text', placeholder="#{__('nickname')}", value="#{data.memberInfo.nickname}", data-tab="Member")
+						.form-group
+							label.col-sm-3.control-label(for='input') #{__('gender')}
+							.col-sm-9
+								label.radio-inline
+									if data.memberInfo.gender == 1
+										input#male(type='radio', name='gender', value="1", checked, data-tab="Member")
+									else
+										input#male(type='radio', name='gender', value="1", data-tab="Member")
+									&nbsp; #{__('male')}
+								label.radio-inline
+									if data.memberInfo.gender == 0
+										input#female(type='radio', name='gender', value="0", checked, data-tab="Member")
+									else
+										input#female(type='radio', name='gender', value="0", data-tab="Member")
+									&nbsp; #{__('female')}
+						.form-group
+							label.col-sm-3.control-label(for='input') #{__('email')}
+							.col-sm-9
+								.input-group
+									.input-group-addon
+										i.fa.fa-envelope-o
+									input#email.form-control(type='text', placeholder="#{__('email')}", value="#{data.memberInfo.email}", data-tab="Member")
+						.form-group
+							label.col-sm-3.control-label(for='input') #{__('mobilePhoneNumber')}
+							.col-sm-9
+								.input-group
+									.input-group-addon
+										i.fa.fa-phone
+									input#mobile.form-control(type='text', placeholder="#{__('mobilePhoneNumber')}", value="#{data.memberInfo.mobile}", data-tab="Member")
+				.box-footer.hidden
+					i.loading.hidden.top-2.fa.fa-spinner.fa-pulse
+					span.loading.hidden.text-muted &nbsp;#{__('updatingData')}
+					i.error.text-red.fa.fa-warning.hidden
+					span.error.text-red.hidden.manualMessage
+					i.success.hidden.text-green.fa.fa-check-circle
+					span.success.hidden.text-green.manualMessage &nbsp;#{__('updateSuccess')}
+
+		.col-md-4
+			.box
+				.box-header
+					h3.box-title #{__('generalInfo')}
+				.box-body
+					table(align="center")
+						tr
+							td.text-right
+								| #{__('registerDate')} : &nbsp;
+							td
+								|  #{data.moment(data.memberInfo.addDate).utcOffset(0).format('DD/MM/YYYY HH:mm')}
+						if data.memberInfo.updateDate
+							tr
+								td.text-right
+									| #{__('updateDate')}  : &nbsp; 
+								td
+									|  #{data.moment(data.memberInfo.updateDate).utcOffset(0).format('DD/MM/YYYY HH:mm')}
+						tr
+							td.text-right
+								| #{__('loginDate')}  : &nbsp;
+							td
+								|  #{data.moment(data.memberInfo.loginDate).utcOffset(0).format('DD/MM/YYYY HH:mm')}
+						tr
+							td.text-right
+								| #{__('loginCount')}  : &nbsp;
+							td
+								|  #{data.memberInfo.loginCount} #{__('times')}
+
+			.box
+				.box-header
+					h3.box-title #{__('change password')}
+				.box-body
+					form.form-horizontal
+						.form-group
+							label.col-sm-6.control-label(for='input') #{__('current password')}
+							.col-sm-6								
+								input#old_password.form-control(type='password', placeholder="#{__('current password')}")
+						.form-group
+							label.col-sm-6.control-label(for='input') #{__('new password')}
+							.col-sm-6
+								input#password.form-control(type='password', placeholder="#{__('new password')}")
+						.form-group
+							label.col-sm-6.control-label(for='input') #{__('retype password')}
+							.col-sm-6
+								input#password2.form-control(type='password', placeholder="#{__('retype password')}")
+						.form-group
+							label.col-sm-6.control-label(for='input') 
+							.col-sm-6
+								#btn-change_password.btn.btn-default.btn-block #{__('change password')}
+				#dv-password.box-footer.hidden
+					span#sp-passwordDifferent.hidden.text-red #{__('passwordDifferent')}
+					span#sp-pleaseFillAll.hidden.text-red #{__('pleaseFillAll')}
+					span#sp-currentPasswordInvalid.hidden.text-red #{__('currentPasswordInvalid')}
+					span#sp-loadingData.hidden.text-info
+						i.fa.fa-spinner.fa-pulse  
+						|  #{__('loadingData')}
+					span#sp-changePasswordSuccess.hidden.text-green #{__('changePasswordSuccess')}
+
+		.col-md-3
+			.box.box-solid.bg-light-blue
+				.box-header
+					h3.box-title.text-center.box-center-title #{__('memberId')} : 
+						b #{data.memberInfo.id}
+						
+			if data.memberInfo.memberType == 'member' && data.memberInfo.secretCode != ''
+				.box.box-solid.bg-aqua
+					.box-header
+						h3.box-title.text-center.box-center-title Secret Code : 
+							b #{data.memberInfo.secretCode}
+
+			if data.memberInfo.memberTypeCount > 1
+				.box
+					.box-header
+						h3.box-title #{__('memberRoles')} (#{data.memberInfo.memberTypeCount})
+					.box-body
+						.text-center
+							span.message #{__('loginAs')}
+						br						
+						if data.memberType.length > 1							
+							for list in data.memberType
+								a.span.btn.btn-block.btn-roles(class="#{list.memberType == data.memberInfo.memberType ? 'btn-primary' : 'btn-default'}" href="#{data.webUrl}/updateRole/#{list.memberType}") #{__('role-'+list.memberType)}

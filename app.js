@@ -58,7 +58,7 @@ app.get('*', function(req, res) {
 	
 	data = {};
 	data.webUrl = 'https://'+req.headers['x-host'];
-
+	data.moment = require('moment')
 	if (url.length >= 1 && url[0] == 'language')
 	{
 		res.cookie('language', url[1], { maxAge: maxAge });
