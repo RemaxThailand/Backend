@@ -6,6 +6,7 @@ html(lang='en')
 		meta(content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no', name='viewport')
 		link(rel='stylesheet', href='//src.remaxthailand.co.th/libs/bootstrap/3.3.5/css/bootstrap.min.css')
 		link(rel='stylesheet', href='//src.remaxthailand.co.th/libs/font-awesome/4.4.0/css/font-awesome.min.css')
+		link(rel='stylesheet', href='//src.remaxthailand.co.th/libs/ionicons/2.0.1/css/ionicons.min.css')
 		link(rel='stylesheet', href='//src.remaxthailand.co.th/libs/adminlte/latest/css/AdminLTE.min.css')
 		link(rel='stylesheet', href='//src.remaxthailand.co.th/libs/adminlte/latest/css/skins/skin-blue.min.css')
 		link(rel='stylesheet', href='/stylesheets/style.css')
@@ -207,14 +208,15 @@ html(lang='en')
 							li.dropdown.user.user-menu
 								a.dropdown-toggle(href='#', data-toggle='dropdown')
 									img.user-image(src='//src.remaxthailand.co.th/img/web/logo/remax-profile.png', alt='User Image')
-									span #{data.memberInfo.displayName}
+									span #{data.memberInfo.displayName} 
+										span.caret
 								ul.dropdown-menu
 									// User image
 									li.user-header
 										img.img-circle(src='//src.remaxthailand.co.th/img/web/logo/remax-profile.png', alt='User Image')
 										p
 											| #{data.memberInfo.displayName} - #{__('role-'+data.memberInfo.memberType)}
-											small Member since Nov. 2012
+											small Member since #{data.moment(data.memberInfo.addDate).utcOffset(0).format('MMM-YYYY')}
 									// Menu Body
 									li.user-body
 										.row
@@ -256,12 +258,15 @@ html(lang='en')
 
 					ul.sidebar-menu
 						for menu, key in data.menu
-							li(class="#{data.screen == key || data.screen.indexOf(key+'-') > -1 ? 'active' : ''} #{menu.hasChild == 1 ? 'treeview' : ''}")
+							li(class="#{data.screen == key || data.screen.indexOf(key+'-') > -1 ? 'active' : ''} #{menu.hasChild == 1 ? 'treeview' : ''}", id="menu#{menu.link.replace(/\//g, '-')}")
 								a(href="#{data.webUrl}#{menu.link}")
 									i(class="fa fa-#{menu.icon}") 
 									span &nbsp;#{__('screen-'+key+'-header')}
 									if menu.hasChild == 1
 										i.fa.fa-angle-left.pull-right
+										small.badge.pull-right.margin-right-5.hidden 0
+									else
+										small.badge.pull-right.hidden 0
 									if menu.hasChild
 										ul.treeview-menu
 											for subMenu, subKey in menu.child

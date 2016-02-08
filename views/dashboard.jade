@@ -1,3 +1,86 @@
 extends layout
 
 block content
+
+	#dv-loading.col-md-9
+
+		if data.memberInfo.memberType != 'xxx'
+			#dv-summary.row
+				.col-md-4.col-xs-6
+					.small-box.bg-aqua
+						.inner
+							h3#numberNews 0
+							p #{__('News')}
+						.icon
+							i.ion.ion-chatbubble-working
+						a.small-box-footer(href='#')
+							| #{__('More Info')} 
+							i.fa.fa-arrow-circle-right
+
+				.col-md-4.col-xs-6
+					.small-box.bg-red
+						.inner
+							h3#numberWallet 0
+							p #{__('Remax Wallet')}
+						.icon
+							i.ion.ion-social-bitcoin
+						a.small-box-footer(href='#')
+							| #{__('More Info')} 
+							i.fa.fa-arrow-circle-right
+
+				.col-md-4.col-xs-6
+					.small-box.bg-orange
+						.inner
+							h3#numberOrderHistory 0
+							p #{__('Order History')}
+						.icon
+							i.ion.ion-bag
+						a.order_history.small-box-footer(href='#')
+							| #{__('More Info')} 
+							i.fa.fa-arrow-circle-right
+
+			#dv-detail.row
+				.col-md-12.col-xs-12
+
+					input#msg-cancel(type='hidden', value="#{__('cancel')}")
+					input#msg-paid(type='hidden', value="#{__('paid')}")
+					input#msg-unpaid(type='hidden', value="#{__('unpaid')}")
+					input#msg-pack(type='hidden', value="#{__('pack')}")
+					input#msg-unpack(type='hidden', value="#{__('unpack')}")
+					input#msg-awaiting_payment(type='hidden', value="#{__('Awaiting Payment')}")
+					input#msg-awaiting_stock(type='hidden', value="#{__('Awaiting Stock')}")
+					input#msg-total(type='hidden', value="#{__('total')}")
+
+					.box.box-primary.order_history.hidden
+						.box-header
+							h3.box-title #{__('Order History')}
+						.box-body.table-responsive
+							table.table.table-condensed.table-hover(width="100%")
+								thead
+									tr.font-sm
+										th(width="95")  #{__('order number')}
+										th.text-center(width="120")  #{__('orderDate')}
+										th #{__('status')}
+										th.text-center(width="65")  #{__('item(s)')}
+										th.text-center(width="55")  #{__('piece(s)')}
+										th.text-center(width="65")  #{__('price')}
+										th.text-center(width="65")  #{__('shipping')}
+										th.text-right(width="85")  #{__('grand total')}
+								tbody
+
+
+		else
+			.callout.callout-info.text-center
+				span.loading.text-muted &nbsp;#{__('welcome to new system v2')}
+
+
+	.col-md-3
+		.box.box-success.box-solid
+			.box-header
+				h3.box-title LINE Official
+			.box-body
+				center Line ID : 
+					b @RemaxThailand
+					br
+					img.img-responsive.margin-top-5.margin-bottom-5(src="https://img.powerdd.com/web/contact/line-remaxthailand.png")
+				|  กรุณา Add Line เพื่อสอบถามข้อมูล และรับสิทธิพิเศษต่างๆ รวมทั้งแจ้งการชำระเงินเพื่อยืนยันคำสั่งซื้อค่ะ

@@ -12,7 +12,9 @@ $(function() {
 	});
 
 	$('.hidden').removeClass('hidden').hide();
-	
+
+	if ( $('#menu-cart').length > 0 ) loadBadge( 'menu-cart', 'bg-red' );
+	if ( $('#subMenu-sales-order').length > 0 ) loadBadge( 'subMenu-sales-order', 'bg-red' );
 
 });
 
@@ -63,3 +65,20 @@ jQuery.fn.ForceNumericOnly = function() {
 		});
 	});
 };
+
+function loadBadge( name, color ) {
+	$.post($('#apiUrl').val()+'/member/summary/alert', {
+		token: Cookies.get('token'),
+		screen: name,
+	}, function(data){
+			if (data.success) {
+				if (data.result[0].count > 0){
+					$('#'+name+' .badge').addClass(color).html( numberWithCommas(data.result[0].count) ).show();
+					if (name.indexOf('subMenu-') != -1) {
+						var parent = $('#'+name+' .badge').parents('.treeview').find('.badge:eq(0)');
+						parent.addClass(color).html( numberWithCommas(data.result[0].count+parseInt($.trim(parent.html())) ) ).show();
+					}
+				}
+			}
+	}, 'json').fail( function(xhr, textStatus, errorThrown) { console.log(xhr.statusText); });
+}
