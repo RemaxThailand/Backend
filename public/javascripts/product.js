@@ -384,12 +384,14 @@ function renderProduct() {
 					if ( result.price5 != undefined ) {
 						html += ' / <span class="font-bigger' + (($('#role').val() == 'manager') ? ' text-red font-bold' : '') + '">' + numberWithCommas(result.price5) + '</span>' + (($('#role').val() == 'manager') ? '</div>' : '') + '';
 					}*/
-
-					if ( result.onCart != undefined ) {
-						if ( result.onCart > 0 || result.onOrder > 0 ) {
-							html += '<div class="font-sm text-muted"><span' + ((result.onCart != 0) ? ' class="text-red"' : '') + '>' + $('#msg-itemOnCart').val() + ' : <b>' + result.onCart + '</b></span> / <span' + ((result.onOrder != 0) ? ' class="text-red"' : '') + '>' + $('#msg-onOrder').val() + ' : <b' + ((result.onOrder != 0) ? ' class="font-bigger text-red"' : '') + '>' + result.onOrder + '</b></span></div>';
+					if ($('#role').val() == 'manager'){
+						if ( result.onCart != undefined ) {
+							if ( result.onCart > 0 || result.onOrder > 0 ) {
+								html += '<div class="font-sm text-muted"><span' + ((result.onCart != 0) ? ' class="text-red"' : '') + '>' + $('#msg-itemOnCart').val() + ' : <b>' + result.onCart + '</b></span> / <span' + ((result.onOrder != 0) ? ' class="text-red"' : '') + '>' + $('#msg-onOrder').val() + ' : <b' + ((result.onOrder != 0) ? ' class="font-bigger text-red"' : '') + '>' + result.onOrder + '</b></span></div>';
+							}
 						}
 					}
+					
 					
 					html += '<div class="clearfix"></div>';
 					html += '</div></div></div>';
@@ -420,9 +422,11 @@ function renderProduct() {
 					html += '<span class="no-stock-' + result.id + ' font-sm text-no_stock text-red font-bold' + ((result.hasStock == 1) ? ' hidden' : '') + '"><i class="fa fa-warning"></i> ' + $('#msg-outOfStock').val() + '</span>';
 					
 
-					if ( result.onCart != undefined ) {
-						if ( result.onCart > 0 || result.onOrder > 0 ) {
-							html += '<br><span class="font-sm text-muted"><span' + ((result.onCart != 0) ? ' class="text-red"' : '') + '>' + $('#msg-itemOnCart').val() + ' : <b>' + result.onCart + '</b></span> / <span' + ((result.onOrder != 0) ? ' class="text-red"' : '') + '>' + $('#msg-onOrder').val() + ' : <b' + ((result.onOrder != 0) ? ' class="font-bigger text-red"' : '') + '>' + result.onOrder + '</b></span></span>';
+					if ($('#role').val() == 'manager'){
+						if ( result.onCart != undefined ) {
+							if ( result.onCart > 0 || result.onOrder > 0 ) {
+								html += '<div class="font-sm text-muted"><span' + ((result.onCart != 0) ? ' class="text-red"' : '') + '>' + $('#msg-itemOnCart').val() + ' : <b>' + result.onCart + '</b></span> / <span' + ((result.onOrder != 0) ? ' class="text-red"' : '') + '>' + $('#msg-onOrder').val() + ' : <b' + ((result.onOrder != 0) ? ' class="font-bigger text-red"' : '') + '>' + result.onOrder + '</b></span></div>';
+							}
 						}
 					}
 
@@ -533,9 +537,11 @@ function renderProduct() {
 						html += ' / <span class="font-bigger' + (($('#role').val() == 'manager') ? ' text-red font-bold' : '') + '">' + numberWithCommas(result.price5) + '</span>' + (($('#role').val() == 'manager') ? '</div>' : '') + '';
 					}*/
 
-					if ( result.onCart != undefined ) {
-						if ( result.onCart > 0 || result.onOrder > 0 ) {
-							html += '<div class="font-sm text-muted"><span' + ((result.onCart != 0) ? ' class="text-red"' : '') + '>' + $('#msg-itemOnCart').val() + ' : <b>' + result.onCart + '</b></span> / <span' + ((result.onOrder != 0) ? ' class="text-red"' : '') + '>' + $('#msg-onOrder').val() + ' : <b' + ((result.onOrder != 0) ? ' class="font-bigger text-red"' : '') + '>' + result.onOrder + '</b></span></div>';
+					if ($('#role').val() == 'manager'){
+						if ( result.onCart != undefined ) {
+							if ( result.onCart > 0 || result.onOrder > 0 ) {
+								html += '<div class="font-sm text-muted"><span' + ((result.onCart != 0) ? ' class="text-red"' : '') + '>' + $('#msg-itemOnCart').val() + ' : <b>' + result.onCart + '</b></span> / <span' + ((result.onOrder != 0) ? ' class="text-red"' : '') + '>' + $('#msg-onOrder').val() + ' : <b' + ((result.onOrder != 0) ? ' class="font-bigger text-red"' : '') + '>' + result.onOrder + '</b></span></div>';
+							}
 						}
 					}
 					
@@ -567,9 +573,11 @@ function renderProduct() {
 					
 					html += '<span class="no-stock-' + result.id + ' font-sm text-no_stock text-red font-bold' + ((result.hasStock == 1) ? ' hidden' : '') + '"><i class="fa fa-warning"></i> ' + $('#msg-outOfStock').val() + '</span>';
 
-					if ( result.onCart != undefined ) {
-						if ( result.onCart > 0 || result.onOrder > 0 ) {
-							html += '<br><span class="font-sm text-muted"><span' + ((result.onCart != 0) ? ' class="text-red"' : '') + '>' + $('#msg-itemOnCart').val() + ' : <b>' + result.onCart + '</b></span> / <span' + ((result.onOrder != 0) ? ' class="text-red"' : '') + '>' + $('#msg-onOrder').val() + ' : <b' + ((result.onOrder != 0) ? ' class="font-bigger text-red"' : '') + '>' + result.onOrder + '</b></span></span>';
+					if ($('#role').val() == 'manager'){
+						if ( result.onCart != undefined ) {
+							if ( result.onCart > 0 || result.onOrder > 0 ) {
+								html += '<div class="font-sm text-muted"><span' + ((result.onCart != 0) ? ' class="text-red"' : '') + '>' + $('#msg-itemOnCart').val() + ' : <b>' + result.onCart + '</b></span> / <span' + ((result.onOrder != 0) ? ' class="text-red"' : '') + '>' + $('#msg-onOrder').val() + ' : <b' + ((result.onOrder != 0) ? ' class="font-bigger text-red"' : '') + '>' + result.onOrder + '</b></span></div>';
+							}
 						}
 					}
 

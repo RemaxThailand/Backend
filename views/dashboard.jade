@@ -49,6 +49,8 @@ block content
 					input#msg-unpack(type='hidden', value="#{__('unpack')}")
 					input#msg-awaiting_payment(type='hidden', value="#{__('Awaiting Payment')}")
 					input#msg-awaiting_stock(type='hidden', value="#{__('Awaiting Stock')}")
+					input#msg-shipped(type="hidden", value="#{__('shipped')}")
+					input#msg-awaiting_shipment(type="hidden", value="#{__('awaiting shipment')}")
 					input#msg-total(type='hidden', value="#{__('total')}")
 
 					.box.box-primary.order_history.hidden
@@ -84,3 +86,38 @@ block content
 					br
 					img.img-responsive.margin-top-5.margin-bottom-5(src="https://img.powerdd.com/web/contact/line-remaxthailand.png")
 				|  กรุณา Add Line เพื่อสอบถามข้อมูล และรับสิทธิพิเศษต่างๆ รวมทั้งแจ้งการชำระเงินเพื่อยืนยันคำสั่งซื้อค่ะ
+
+
+
+	#dv-input_shipping.modal.fade(tabindex='-1', role='dialog')
+		.modal-dialog.modal-sm
+			.modal-content
+				.modal-header
+					button.close(type='button', data-dismiss='modal')
+						span(aria-hidden='true') &times;
+						span.sr-only #{__('close')}
+					h4.modal-title #{__('shipping method')}
+				.modal-body
+					form
+						.form-group
+							span #{__('shipping method')} : 
+							strong#shippingMethod
+						.form-group
+							span #{__('Shipping - Tracking Number')} : 
+							strong#trackingNo
+						.form-group.hidden
+							select#shipping_method.form-control
+								option(value="KE", selected) #{__('Shipping - Kerry Express')}
+								option(value="CC") #{__('Shipping - Collect Call')}
+								option(value="SS") #{__('Shipping - Self Service')}
+								option(value="EMS") #{__('Shipping - EMS')}
+								option(value="RGT") #{__('Shipping - Registered')}
+				.modal-footer
+					.input-group
+						span.input-group-btn
+							a.btn-tracking.btn.btn-warning.input-EMS.input-RGT.hidden(href='http://track.thailandpost.co.th/tracking/default.aspx?lang=#{config.language}', target="_blank")
+								i.fa.fa-check-circle
+								|   #{__('Shipping - Tracking')}
+							a.btn-tracking.btn.btn-warning.input-KE.hidden(href='http://th.ke.rnd.kerrylogistics.com/shipmenttracking/', target="_blank")
+								i.fa.fa-check-circle
+								|   #{__('Shipping - Tracking')}

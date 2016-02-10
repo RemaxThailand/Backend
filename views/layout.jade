@@ -218,14 +218,14 @@ html(lang='en')
 											| #{data.memberInfo.displayName} - #{__('role-'+data.memberInfo.memberType)}
 											small Member since #{data.moment(data.memberInfo.addDate).utcOffset(0).format('MMM-YYYY')}
 									// Menu Body
-									li.user-body
-										.row
-											.col-xs-4.text-center
-												a(href='#') Followers
-											.col-xs-4.text-center
-												a(href='#') Sales
-											.col-xs-4.text-center
-												a(href='#') Friends
+									//li.user-body
+										//.row
+											//.col-xs-4.text-center
+												//a(href='#') Followers
+											//.col-xs-4.text-center
+												//a(href='#') Sales
+											//.col-xs-4.text-center
+												//a(href='#') Friends
 										// /.row
 									// Menu Footer
 									li.user-footer
@@ -245,7 +245,7 @@ html(lang='en')
 							img.img-circle(src='//src.remaxthailand.co.th/img/web/logo/remax-profile.png', alt='User Image')
 						.pull-left.info
 							p #{data.memberInfo.displayName}
-							a(href='#')
+							a(href='/member/profile')
 								i.fa.fa-circle.text-success
 								|	#{__('role-'+data.memberInfo.memberType)}
 					// search form
